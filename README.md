@@ -3,7 +3,7 @@ Este repositório é destinado ao desenvolvimento de um website para a matéria 
 
 
 ### Autores ###
-**Guilherme Ferreira Sabino da Silva**
-**Henrique Alberto de Andrade**
-**Othon Paiva Arêas Costa**
-**Ruan Natan Guerra Pato**
+**Guilherme Ferreira Sabino da Silva**  
+**Henrique Alberto de Andrade**  
+**Othon Paiva Arêas Costa**  
+**Ruan Natan Guerra Pato**  
