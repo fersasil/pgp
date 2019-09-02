@@ -21,6 +21,9 @@ Run:
 
 Ps: You should be inside the frontend folder
 
+### Install the database script, link
+
+
 
 # Amigo estou aqui (Nome final não decidido ainda) #
 Este repositório é destinado ao desenvolvimento de um website para a matéria de Planejamento e Gestão de Projetos cursado no segundo semestre do ano de 2019 na Universidade Federal da Fronteira Sul campus Chapecó.
