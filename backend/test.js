@@ -1,13 +1,13 @@
-// const pool = require('./helpers/dbConnect');
 
-const queryStr = "SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE 1";
+const Event = require("./models/Event");
 
-const dbHelper = require("./helpers/dbHelper");
-const dbFunc = new dbHelper('Event');
 
 async function teste(){
     try{
-        const rows = await dbFunc.findEventByTitle("Teste");
+        const rows = await Event.findEventByTitle({
+            name: "Teste",
+            id: "15"
+        });
         const res = [...rows];
         console.log(res);
     }
