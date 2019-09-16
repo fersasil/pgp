@@ -1,5 +1,4 @@
-const dbHelper = require('../helpers/dbFunctions');
-// const dbFunc = new dbHelper('usuario');
+const pool = require('../helpers/dbConnect');
 
 module.exports = class {
     constructor(params) {
@@ -29,10 +28,16 @@ module.exports = class {
     }
 
 
-    async findByEmail(email) {
+    async findEventByID(event) {
         const commonInfo = this;
 
-        return this.query("SELECjhf" + email)
+        return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`idEvent` = " + event);
+    }
+
+    async findEvent(event) {
+        const commonInfo = this;
+
+        return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`idEvent` = " + event);
     }
 
 };
