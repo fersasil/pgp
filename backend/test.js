@@ -7,7 +7,7 @@ const dbFunc = new dbHelper('Event');
 
 async function teste(){
     try{
-        const rows = await dbFunc.findEventByID(1);
+        const rows = await dbFunc.findEventByTitle("Teste");
         const res = [...rows];
         console.log(res);
     }

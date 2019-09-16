@@ -28,16 +28,16 @@ module.exports = class {
     }
 
 
-    async findEventByID(event) {
+   /* async findEventByID(event) {
         const commonInfo = this;
 
         return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`idEvent` = " + event);
-    }
+    }*/
 
-    async findEvent(event) {
+    async findEventByTitle(event) {
         const commonInfo = this;
 
-        return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`idEvent` = " + event);
+        return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`titleEvent` LIKE '%" + event + "%'");
     }
 
 };
