@@ -4,7 +4,7 @@ const authHelper = require('../helpers/authHelper');
 
 
 exports.signUp = (req, res, next) => {
-    const {email, name, cpf, birthday, nickname, password} = req.body;
+    const { email, name, cpf, birthday, nickname, password } = req.body;
     const user = {
         name,
         password,
@@ -16,20 +16,21 @@ exports.signUp = (req, res, next) => {
 
     const isValidInput = inputHelper.verifyInputs(user);
 
-    if(!isValidInput){
-        res.json({status: "-1", error: 'Invalid inputs'})
+    if (!isValidInput) {
+        res.json({ status: "-1", error: 'Invalid inputs' })
     }
 
     user.birthday = inputHelper.formatDate(user.birthday);
-    
-    try{
+
+    try {
         const res = await User.createUser(user);
-        
-        if(res){
+
+        if (res) {
             const tokenData = {
-                userId: res.userId
+                userId: res.userId,
+                nickname: res.nickname
             }
-            
+
             const token = authHelper.generateToken(tokenData);
 
             const data = {
@@ -39,16 +40,12 @@ exports.signUp = (req, res, next) => {
                 token: token
             }
 
-            res.json(data);
+            res.json({ status: 1, data });
+        } else { //Erro no banco
+            res.json({ status: "-1", error: "Backend Error" })
         }
-        else{ //Erro no banco
-            res.json({status: "-1", error: "Backend Error"})
-        }
-    }
-    catch(err){
+    } catch (err) {
         console.log(err);
-        res.json({status: "-1", error: "Backend Error"})
+        res.json({ status: "-1", error: "Backend Error" })
     }
-
-    res.send("Vou conctar com o banco aqui!");
 };

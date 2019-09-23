@@ -1,0 +1,1 @@
+exports.JWT_SECRET = "this is my test of a secret. It can be anything";
