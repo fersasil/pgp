@@ -31,20 +31,20 @@ module.exports = class {
         return dbFunc.createNewEvent(params);
     }
 
-    static async deleteEventById(id) { // DONE
-        return dbFunc.deleteEventById(id);
+    static async deleteEventById(idEvent) { // DONE
+        return dbFunc.deleteEventById(idEvent);
     }
 
-    static async getEventByTitle(title) { // DONE
+    static async findEventByTitle(title) { // Done (name changed)
         return dbFunc.findEventByTitle(title);
     }
 
-    static async updateEventById(id, params) { // DONE
-        return dbFunc.updateById(id, params);
+    static async updateEventById(idEvent, params) { // DONE
+        return dbFunc.updateById(idEvent, params);
     }
 
-    static async findEventById(id) { // DONE
-        return dbFunc.findEventByID(id);
+    static async findEventById(idEvent) { // DONE
+        return dbFunc.findEventByID(idEvent);
     }
 
 };
