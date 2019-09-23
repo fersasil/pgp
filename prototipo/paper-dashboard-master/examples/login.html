@@ -1,0 +1,590 @@
+<!--
+=========================================================
+ Paper Dashboard 2 - v2.0.0
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/paper-dashboard-2
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Login
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/><!-- Usando bootstrap via CDN-->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" rel="stylesheet"/><!-- Usando bootstrap via CDN-->
+
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../assets/demo/demo.css" rel="stylesheet" />
+
+  <style>
+    .btn:not(.btn-icon) .nc-icon,
+.navbar .navbar-nav>a.btn:not(.btn-icon) .nc-icon {
+  position: relative;
+  top: 1px;
+}
+.btn:active,
+.btn.active,
+.open>.btn.dropdown-toggle,
+.navbar .navbar-nav>a.btn:active,
+.navbar .navbar-nav>a.btn.active,
+.open>.navbar .navbar-nav>a.btn.dropdown-toggle {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: 0 !important;
+}
+
+.btn .badge,
+.navbar .navbar-nav>a.btn .badge {
+  margin: 0;
+}
+.btn:hover,
+.btn:focus,
+.navbar .navbar-nav>a.btn:hover,
+.navbar .navbar-nav>a.btn:focus {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  outline: 0 !important;
+}
+.btn.disabled,
+.btn.disabled:hover,
+.btn.disabled:focus,
+.btn.disabled.focus,
+.btn.disabled:active,
+.btn.disabled.active,
+.btn:disabled,
+.btn:disabled:hover,
+.btn:disabled:focus,
+.btn:disabled.focus,
+.btn:disabled:active,
+.btn:disabled.active,
+.btn[disabled],
+.btn[disabled]:hover,
+.btn[disabled]:focus,
+.btn[disabled].focus,
+.btn[disabled]:active,
+.btn[disabled].active,
+fieldset[disabled] .btn,
+fieldset[disabled] .btn:hover,
+fieldset[disabled] .btn:focus,
+fieldset[disabled] .btn.focus,
+fieldset[disabled] .btn:active,
+fieldset[disabled] .btn.active,
+.navbar .navbar-nav>a.btn.disabled,
+.navbar .navbar-nav>a.btn.disabled:hover,
+.navbar .navbar-nav>a.btn.disabled:focus,
+.navbar .navbar-nav>a.btn.disabled.focus,
+.navbar .navbar-nav>a.btn.disabled:active,
+.navbar .navbar-nav>a.btn.disabled.active,
+.navbar .navbar-nav>a.btn:disabled,
+.navbar .navbar-nav>a.btn:disabled:hover,
+.navbar .navbar-nav>a.btn:disabled:focus,
+.navbar .navbar-nav>a.btn:disabled.focus,
+.navbar .navbar-nav>a.btn:disabled:active,
+.navbar .navbar-nav>a.btn:disabled.active,
+.navbar .navbar-nav>a.btn[disabled],
+.navbar .navbar-nav>a.btn[disabled]:hover,
+.navbar .navbar-nav>a.btn[disabled]:focus,
+.navbar .navbar-nav>a.btn[disabled].focus,
+.navbar .navbar-nav>a.btn[disabled]:active,
+.navbar .navbar-nav>a.btn[disabled].active,
+fieldset[disabled] .navbar .navbar-nav>a.btn,
+fieldset[disabled] .navbar .navbar-nav>a.btn:hover,
+fieldset[disabled] .navbar .navbar-nav>a.btn:focus,
+fieldset[disabled] .navbar .navbar-nav>a.btn.focus,
+fieldset[disabled] .navbar .navbar-nav>a.btn:active,
+fieldset[disabled] .navbar .navbar-nav>a.btn.active {
+  background-color: #212529;
+  border-color: #212529;
+}
+    .navbar .navbar-collapse .nav-item a {
+  font-size: 14px;
+}
+.navbar .navbar-collapse .input-group {
+    margin: 0;
+    margin-top: 5px;
+  }
+.sidebar .nav .collapse .nav,
+.sidebar .nav .collapsing .nav,
+.off-canvas-sidebar .nav .collapse .nav,
+.off-canvas-sidebar .nav .collapsing .nav {
+  margin-top: 0;
+}
+.nav-open .menu-on-right .navbar-collapse,
+  .nav-open .menu-on-right .sidebar {
+    -webkit-transform: translate3d(0px, 0, 0);
+    -moz-transform: translate3d(0px, 0, 0);
+    -o-transform: translate3d(0px, 0, 0);
+    -ms-transform: translate3d(0px, 0, 0);
+    transform: translate3d(0px, 0, 0);
+  }
+@media screen and (min-width: 992px) {
+  .navbar-collapse {
+    background: none !important;
+  }
+  .navbar .navbar-toggle {
+    display: none;
+  }
+  .navbar-nav .nav-link.profile-photo {
+    padding: 0;
+    margin: 7px 0.7rem;
+  }
+  .section-nucleo-icons .icons-container {
+    margin: 0 0 0 auto;
+  }
+  .dropdown-menu .dropdown-item {
+    color: inherit;
+  }
+  .footer .copyright {
+    float: right;
+    padding-right: 15px;
+  }
+  .sidebar .sidebar-wrapper li.active>a:not([data-toggle="collapse"]):before,
+  .sidebar .sidebar-wrapper li.active>[data-toggle="collapse"]+div .nav li:before {
+    border-right: 17px solid #DDDDDD;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: -16px;
+    opacity: 1;
+    top: 7px;
+    transition: opacity 150ms ease-in;
+  }
+  .sidebar .sidebar-wrapper li.active>a:not([data-toggle="collapse"]):after,
+  .sidebar .sidebar-wrapper li.active>[data-toggle="collapse"]+div .nav li:after {
+    border-right: 17px solid #f4f3ef;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: -17px;
+    opacity: 1;
+    top: 7px;
+    transition: opacity 150ms ease-in;
+  }
+  .sidebar .sidebar-wrapper li.active>[data-toggle="collapse"]+div .nav li a:before,
+  .sidebar .sidebar-wrapper li.active>[data-toggle="collapse"]+div .nav li a:after {
+    top: 0;
+  }
+}
+  .navbar .navbar-nav .nav-item.active .nav-link:not(.btn),
+  .navbar .navbar-nav .nav-item .nav-link:not(.btn):focus,
+  .navbar .navbar-nav .nav-item .nav-link:not(.btn):hover,
+  .navbar .navbar-nav .nav-item .nav-link:not(.btn):active {
+    border-radius: 3px;
+    color: #212529;
+  }
+  .navbar.navbar-transparent .nav-item .nav-link:not(.btn) {
+  color: #212529;
+  }
+  .navbar .navbar-collapse .nav-item a {
+    font-size: 14px;
+  }
+
+  .navbar.bg-white .nav-item.active .nav-link:not(.btn),
+  .navbar.bg-white .nav-item .nav-link:not(.btn):focus,
+  .navbar.bg-white .nav-item .nav-link:not(.btn):hover,
+  .navbar.bg-white .nav-item .nav-link:not(.btn):active {
+    color: #51bcda;
+  }
+
+  .navbar.navbar-transparent .nav-item.active .nav-link:not(.btn),
+  .navbar.navbar-transparent .nav-item .nav-link:not(.btn):focus,
+  .navbar.navbar-transparent .nav-item .nav-link:not(.btn):hover,
+  .navbar.navbar-transparent .nav-item .nav-link:not(.btn):focus:hover,
+  .navbar.navbar-transparent .nav-item .nav-link:not(.btn):active {
+    color: #51cbce;
+  }
+  .btn-lg {
+    font-size: 1rem;
+    border-radius: 6px;
+    padding: 15px 48px;
+  }
+  .navbar .navbar-nav>a.btn {
+    border-width: 2px;
+    font-weight: 600;
+    font-size: 0.8571em;
+    line-height: 1.35em;
+    text-transform: uppercase;
+    border: none;
+    margin: 10px 1px;
+    border-radius: 3px;
+    padding: 11px 22px;
+    cursor: pointer;
+    background-color: #212529;
+    color: #FFFFFF;
+    -webkit-transition: all 150ms linear;
+    -moz-transition: all 150ms linear;
+    -o-transition: all 150ms linear;
+    -ms-transition: all 150ms linear;
+    transition: all 150ms linear;
+  }
+
+  .page-header footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .page-header .container {
+    height: 100%;
+    z-index: 1;
+  }
+
+  .bg-default {
+    background-color: #212529 !important;
+  }
+  
+  .alert {
+    border: 0;
+    border-radius: 3px;
+    color: #FFFFFF;
+    padding-top: .9rem;
+    padding-bottom: .9rem;
+    position: relative;
+  }
+  .alert.alert-danger {
+    text-align: center;
+    background-color: #d93814;
+  }
+
+  .navbar .navbar-nav .nav-item.active .nav-link:not(.btn),
+  .navbar .navbar-nav .nav-item .nav-link:not(.btn):focus,
+  .navbar .navbar-nav .nav-item .nav-link:not(.btn):hover,
+  .navbar .navbar-nav .nav-item .nav-link:not(.btn):active {
+    border-radius: 3px;
+    color: #212529;
+  }
+
+  .mt-7{
+    margin-top: 7rem!important;
+  }
+
+  .bg-default {
+    background-color: #212529 !important;
+  }
+  .form-control {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    color: #212529;
+    line-height: normal;
+    font-size: 14px;
+    -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -o-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -ms-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .form-control:focus {
+    border: 1px solid #9A9A9A;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    outline: 0 !important;
+    color: #212529;
+  }
+
+  .form-control:focus+.input-group-append .input-group-text,
+  .form-control:focus~.input-group-append .input-group-text,
+  .form-control:focus+.input-group-prepend .input-group-text,
+  .form-control:focus~.input-group-prepend .input-group-text {
+    border: 1px solid #ccc;
+    border-left: none;
+    background-color: transparent;
+  }
+
+  .has-success .form-control,
+  .has-error .form-control,
+  .has-success .form-control:focus,
+  .has-error .form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .has-success .form-control {
+    border: 1px solid #ccc;
+    color: #212529;
+  }
+
+  .has-success .form-control.form-control-success {
+    padding-right: 2.5em !important;
+  }
+
+  .has-success .form-control:focus {
+    border: 1px solid #6bd098;
+    color: #6bd098;
+  }
+
+  .has-danger .form-control {
+    background-color: #FFC0A4;
+    border: 1px solid #d93814;
+    color: #d93814;
+  }
+
+  .has-danger .form-control.form-control-danger {
+    padding-right: 2.5em !important;
+  }
+
+  .has-danger .form-control:focus {
+    background-color: #FFFFFF;
+    border: 1px solid #d93814;
+  }
+
+  .form-control+.form-control-feedback {
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: -7px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    vertical-align: middle;
+  }
+
+  .open .form-control {
+    border-radius: 6px 6px 0 0;
+    border-bottom-color: transparent;
+  }
+
+  .form-control+.input-group-append .input-group-text,
+  .form-control+.input-group-prepend .input-group-text {
+    background-color: #FFFFFF;
+  }
+
+  .form-group.no-border.form-control-lg .input-group-append .input-group-text,
+  .input-group.no-border.form-control-lg .input-group-append .input-group-text {
+    padding: 15px 0 15px 11px;
+  }
+
+  .form-group.no-border.form-control-lg .form-control,
+  .input-group.no-border.form-control-lg .form-control {
+    padding: 15px 11px;
+  }
+
+  .form-group.no-border.form-control-lg .form-control+.input-group-prepend .input-group-text,
+  .form-group.no-border.form-control-lg .form-control+.input-group-append .input-group-text,
+  .input-group.no-border.form-control-lg .form-control+.input-group-prepend .input-group-text,
+  .input-group.no-border.form-control-lg .form-control+.input-group-append .input-group-text {
+    padding: 15px 11px 15px 0;
+  }
+
+  .form-group.form-control-lg .form-control,
+  .input-group.form-control-lg .form-control {
+    padding: 14px 10px;
+  }
+
+  .form-group.form-control-lg .form-control+.input-group-prepend .input-group-text,
+  .form-group.form-control-lg .form-control+.input-group-append .input-group-text,
+  .input-group.form-control-lg .form-control+.input-group-prepend .input-group-text,
+  .input-group.form-control-lg .form-control+.input-group-append .input-group-text {
+    padding: 14px 10px 14px 0;
+  }
+
+  .form-group.form-control-lg .input-group-prepend .input-group-text,
+  .form-group.form-control-lg .input-group-append .input-group-text,
+  .input-group.form-control-lg .input-group-prepend .input-group-text,
+  .input-group.form-control-lg .input-group-append .input-group-text {
+    padding: 14px 0 15px 10px;
+  }
+
+  .form-group.form-control-lg .input-group-prepend .input-group-text+.form-control,
+  .form-group.form-control-lg .input-group-append .input-group-text+.form-control,
+  .input-group.form-control-lg .input-group-prepend .input-group-text+.form-control,
+  .input-group.form-control-lg .input-group-append .input-group-text+.form-control {
+    padding: 15px 10px 15px 8px;
+  }
+
+  .form-group.no-border .form-control,
+  .input-group.no-border .form-control {
+    padding: 11px 11px;
+  }
+
+  .form-group.no-border .form-control+.input-group-prepend .input-group-text,
+  .form-group.no-border .form-control+.input-group-append .input-group-text,
+  .input-group.no-border .form-control+.input-group-prepend .input-group-text,
+  .input-group.no-border .form-control+.input-group-append .input-group-text {
+    padding: 11px 11px 11px 0;
+  }
+
+  .form-group.no-border .input-group-prepend .input-group-text,
+  .form-group.no-border .input-group-append .input-group-text,
+  .input-group.no-border .input-group-prepend .input-group-text,
+  .input-group.no-border .input-group-append .input-group-text {
+    padding: 11px 0 11px 11px;
+  }
+
+  .form-group .form-control,
+  .input-group .form-control {
+    padding: 10px 10px 10px 10px;
+  }
+
+  .form-group .form-control+.input-group-prepend .input-group-text,
+  .form-group .form-control+.input-group-append .input-group-text,
+  .input-group .form-control+.input-group-prepend .input-group-text,
+  .input-group .form-control+.input-group-append .input-group-text {
+    padding: 10px 10px 10px 0;
+  }
+
+  .form-group .input-group-prepend .input-group-text,
+  .form-group .input-group-append .input-group-text,
+  .input-group .input-group-prepend .input-group-text,
+  .input-group .input-group-append .input-group-text {
+    padding: 10px 0 10px 10px;
+  }
+
+  .form-group .input-group-prepend .input-group-text+.form-control,
+  .form-group .input-group-prepend .input-group-text~.form-control,
+  .form-group .input-group-append .input-group-text+.form-control,
+  .form-group .input-group-append .input-group-text~.form-control,
+  .input-group .input-group-prepend .input-group-text+.form-control,
+  .input-group .input-group-prepend .input-group-text~.form-control,
+  .input-group .input-group-append .input-group-text+.form-control,
+  .input-group .input-group-append .input-group-text~.form-control {
+    padding: 10px 11px 11px 8px;
+  }
+
+  .input-group.has-success .input-group-prepend .input-group-text,
+  .input-group.has-success .input-group-append .input-group-text {
+    border: 1px solid #ccc;
+    color: #212529;
+    background-color: #FFFFFF;
+    border-right: none;
+  }
+
+  .form-group.no-border .form-control,
+  .form-group.no-border .form-control+.input-group-prepend .input-group-text,
+  .form-group.no-border .form-control+.input-group-append .input-group-text,
+  .input-group.no-border .form-control,
+  .input-group.no-border .form-control+.input-group-prepend .input-group-text,
+  .input-group.no-border .form-control+.input-group-append .input-group-text {
+    background-color: rgba(222, 222, 222, 0.3);
+    border: medium none;
+  }
+
+  .form-group.no-border .form-control:focus,
+  .form-group.no-border .form-control:active,
+  .form-group.no-border .form-control:active,
+  .form-group.no-border .form-control+.input-group-prepend .input-group-text:focus,
+  .form-group.no-border .form-control+.input-group-prepend .input-group-text:active,
+  .form-group.no-border .form-control+.input-group-prepend .input-group-text:active,
+  .form-group.no-border .form-control+.input-group-append .input-group-text:focus,
+  .form-group.no-border .form-control+.input-group-append .input-group-text:active,
+  .form-group.no-border .form-control+.input-group-append .input-group-text:active,
+  .input-group.no-border .form-control:focus,
+  .input-group.no-border .form-control:active,
+  .input-group.no-border .form-control:active,
+  .input-group.no-border .form-control+.input-group-prepend .input-group-text:focus,
+  .input-group.no-border .form-control+.input-group-prepend .input-group-text:active,
+  .input-group.no-border .form-control+.input-group-prepend .input-group-text:active,
+  .input-group.no-border .form-control+.input-group-append .input-group-text:focus,
+  .input-group.no-border .form-control+.input-group-append .input-group-text:active,
+  .input-group.no-border .form-control+.input-group-append .input-group-text:active {
+    border: medium none;
+    background-color: rgba(222, 222, 222, 0.5);
+  }
+
+  .form-group.no-border .form-control:focus+.input-group-prepend .input-group-text,
+  .form-group.no-border .form-control:focus+.input-group-append .input-group-text,
+  .input-group.no-border .form-control:focus+.input-group-prepend .input-group-text,
+  .input-group.no-border .form-control:focus+.input-group-append .input-group-text {
+    background-color: rgba(222, 222, 222, 0.5);
+  }
+
+  .form-group.no-border .input-group-prepend .input-group-text,
+  .form-group.no-border .input-group-append .input-group-text,
+  .input-group.no-border .input-group-prepend .input-group-text,
+  .input-group.no-border .input-group-append .input-group-text {
+    background-color: rgba(222, 222, 222, 0.3);
+    border: none;
+  }
+
+  .has-error .form-control-feedback,
+  .has-error .control-label {
+    color: #d93814;
+  }
+  </style>
+
+</head>
+
+<body class="">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md bg-default navbar-light">
+      <div class="container">
+        <a class="navbar-brand ml-2" href="">
+            <img src="logo.png" alt="Logo" style="width:60px;">
+        </a>
+        <div id="navbar" class="collapse navbar-collapse">    
+            <ul class="navbar-nav ml-auto">
+                <!-- Button entrar-->
+                <li class="nav-item">
+                    <a href="#" class="btn bg-default" role="button" aria-pressed="true">Entrar</a>
+                </li>
+                <!-- /Button entrar-->
+                <!-- Button Registrar-se-->
+                <li class="nav-item">
+                    <a href="#" class="btn bg-default" role="button" aria-pressed="true">Registrar-se</a>
+                </li>
+                <!-- /Button Registrar-se-->
+            </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- /Navbar -->
+
+    <div class="container">
+        <div class="row mt-7">
+            <div class="col-md-4 offset-md-4 form-div">
+                <form action="" method="post">
+                    <!-- Mensagem de erro -->
+                            <div class="form-group">
+                                <div class="alert alert-danger">
+                                    <span class="glyphicon glyphicon-info-sign text-center">Senha ou usuário inválidos</span>
+                                </div>
+                            </div>
+                    <!--Email-->
+                    <div class="form-group">
+                        <label for="input-email">Email</label>
+                        <input type="text" name="input-email" class="form-control form-control-lg" required>
+                    </div>
+                    <!--Senha-->
+                    <div class="form-group">
+                        <label for="input-senha">Senha</label>
+                        <input type="password" name="input-senha" class="form-control form-control-lg" required>
+                    </div>
+                    <!--Botão Entrar-->
+                    <div class="form-group">
+                        <button type="submit" name="btn-entrar" class="btn bg-default btn-block btn-lg">Entrar</button>
+                    </div>
+
+                    <!-- Texto você já possui conta e link -->
+                    <p class="text-center">Esqueceu sua  <a href="#">senha</a> ?</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+</body>
+
+</html>
