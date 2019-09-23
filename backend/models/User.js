@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 const dbHelper = require('../helpers/dbFunctions');
 const dbFunc = new dbHelper('User');
 

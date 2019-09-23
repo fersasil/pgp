@@ -50,13 +50,13 @@ module.exports = class {
 
         return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`titleEvent` LIKE '%" + event + "%'");
     }
-
+    // Redo
     async createNewEvent(event) {
         const commonInfo = this;
 
         return this.query("INSERT INTO `Event`(`idEvent`, `titleEvent`, `subtitleEvent`, `descriptionEvent`, `vagasEvent`, `startEvent`, `endEvent`, `priceEvent`, `Address_idAddress`) VALUES (NULL,"+event.titleEvent+","+event.subtitleEvent+","+event.descriptionEvent+","+event.vagasEvent+","+event.startEvent+","+event.endEvent+","+event.priceEvent+","+event.Address_idAddress+")");
     }
-
+    //Redo
     async updateEventByID(event) {
         const commonInfo = this;
 

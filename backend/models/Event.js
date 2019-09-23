@@ -1,6 +1,4 @@
-const bcrypt = require('bcrypt');
-
-const dbHelper = require('../helpers/dbFunctions');
+const dbHelper = require('../helpers/dbHelper');
 const dbFunc = new dbHelper('Event');
 
 module.exports = class {
@@ -27,6 +25,7 @@ module.exports = class {
         return dbFunc.findAllEvents();
     }
 
+    // Redo
     static async createNewEvent(params) { // DONE
         return dbFunc.createNewEvent(params);
     }
@@ -39,6 +38,7 @@ module.exports = class {
         return dbFunc.findEventByTitle(title);
     }
 
+    // Redo
     static async updateEventById(idEvent, params) { // DONE
         return dbFunc.updateById(idEvent, params);
     }
