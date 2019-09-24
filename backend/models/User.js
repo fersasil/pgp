@@ -1,4 +1,4 @@
-const dbHelper = require('../helpers/dbFunctions');
+const dbHelper = require('../helpers/dbHelperAuxUsers');
 const dbFunc = new dbHelper('User');
 
 module.exports = class {
@@ -28,7 +28,7 @@ module.exports = class {
         return dbFunc.createUser(params);
     }
 
-    static async updateUser(params){ // Done
+    static async updateUser(params) { // Done
         return dbFunc.updateUser(params);
     }
 

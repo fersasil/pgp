@@ -1,4 +1,4 @@
-const JWT_SECRET = require('./constants');
+const { JWT_SECRET } = require('./constants');
 const jwt = require('jsonwebtoken');
 
 exports.generateToken = tokenData => {

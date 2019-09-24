@@ -1,9 +1,13 @@
-const User = require('../models/UserModel');
+const User = require('../models/User');
 const inputHelper = require('../helpers/inputHelper');
 const authHelper = require('../helpers/authHelper');
 
+exports.signIn = async(req, res, next) => {
 
-exports.signUp = (req, res, next) => {
+}
+
+exports.signUp = async(req, res, next) => {
+    console.log("OLa");
     const { email, name, cpf, birthday, nickname, password } = req.body;
     const user = {
         name,
@@ -17,35 +21,65 @@ exports.signUp = (req, res, next) => {
     const isValidInput = inputHelper.verifyInputs(user);
 
     if (!isValidInput) {
-        res.json({ status: "-1", error: 'Invalid inputs' })
+        res.json({ status: "-1", error: 'Invalid inputs' });
+        return;
     }
 
-    user.birthday = inputHelper.formatDate(user.birthday);
+    user.birthday = inputHelper.formatDateToEn(user.birthday);
 
     try {
-        const res = await User.createUser(user);
+        const newUserCreated = await User.createUser(user);
 
-        if (res) {
-            const tokenData = {
-                userId: res.userId,
-                nickname: res.nickname
-            }
+        user.idUser = newUserCreated.insertId;
 
-            const token = authHelper.generateToken(tokenData);
-
-            const data = {
-                nickname: res.nickname,
-                name: res.nameUser,
-                id: res.idUser,
-                token: token
-            }
-
-            res.json({ status: 1, data });
-        } else { //Erro no banco
+        if (!newUserCreated) { //Erro no banco
             res.json({ status: "-1", error: "Backend Error" })
+            return;
         }
+
+        const tokenData = {
+            userId: user.userId,
+            nickname: user.nickname
+        }
+
+        const token = authHelper.generateToken(tokenData);
+
+        const data = {
+            nickname: user.nickname,
+            name: user.name.split()[0],
+            idUser: user.idUser,
+            token: token
+        }
+
+        res.json({ status: 1, data });
+
     } catch (err) {
-        console.log(err);
+        if (err.code === 'ER_DUP_ENTRY') {
+            //Logica para encontrar o campo do erro que esta duplicado
+            // TODO: mover para outro arquivo
+
+            const errorAsString = err.toString();
+            const errorSubstring = errorAsString.substring(errorAsString.indexOf('key'));
+            const duplicatedField = errorSubstring.split('\'')[1];
+
+
+            const error = new Error("User already signedUp");
+            error.status = 400;
+            error.info = { duplicatedField }
+
+            console.log(duplicatedField);
+
+            res.json({
+                status: "-1",
+                error: "User already signedUp",
+                data: { duplicatedField }
+            });
+
+            throw error;
+
+            return;
+        }
         res.json({ status: "-1", error: "Backend Error" })
+        console.log(err);
     }
 };

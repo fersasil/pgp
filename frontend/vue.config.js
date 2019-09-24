@@ -1,3 +1,4 @@
 module.exports = {
-  lintOnSave: false
+    lintOnSave: false,
+    // publicPath: 'https://fersasil.github.io/pgp-certificados/'
 };

@@ -4,9 +4,14 @@ const sqlinjection = require('sql-injection');
 
 const authController = require("../controllers/authController");
 
-const routes = express.Router();
+const router = express.Router();
 
-// routes.signIn
+// router.signIn
 
 //Testar isso
-routes.signUp = ('/signUp', sqlinjection, authController.signUp);
+router.post('/sign-up', authController.signUp);
+router.post('/sign-in', authController.signIn);
+
+
+
+module.exports = router;
