@@ -38,7 +38,9 @@
                                 </div>
 
                                 <!-- Texto você já possui conta e link -->
-                                <p class="blue-text"><a>Ja possui uma conta ?</a></p>
+                                <p class="blue-text"><a>
+                                    <router-link :to="{name: 'dashboard'}">Ja possui uma conta ?</router-link>
+                                </a></p>
                             </form>
                         </div>
                     </div>
@@ -80,6 +82,12 @@ export default {
             }
             
         }
+    },
+    mounted(){
+        document.body.classList.add('body-img');
+    },
+    destroyed(){
+        document.body.classList.remove('body-img');
     }
 }
 </script>
@@ -126,7 +134,7 @@ export default {
     .paragraph-white{
         color: #dcddde;
         font-size: 25px;
-        font-family: 'vietnan', cursive;
+        font-family: 'Be Vietnam', cursive;
     }
     label{
         color: #8E9297;
@@ -166,7 +174,7 @@ export default {
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 400px) {
-    body{
+    .body-img{
         background-color: #2D2F34 !important;
         background-image: none;
     }
@@ -182,7 +190,7 @@ export default {
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 400px) {
-    body{
+    .body-img{
         background-color: #343a40;
         background-image: url('https://i.imgur.com/M3ioWqh.jpg');
     }

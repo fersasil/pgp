@@ -5,7 +5,7 @@ const headers = {
 };
 
 export default axios.create({
-    // baseURL: `http://localhost:3000/`,
-    baseURL: `http://131.108.54.142:3000/`,
+    baseURL: `http://localhost:3000/api/sign-up`,
+    // baseURL: `http://131.108.54.142:3000/`,
     headers: headers
 });
