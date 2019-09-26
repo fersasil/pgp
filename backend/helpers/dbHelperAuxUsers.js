@@ -23,7 +23,7 @@ module.exports = class {
         return this.query("INSERT INTO User(nameUser, cpfUser, birthdayUser, nicknameUser, emailUser, passwordUser) VALUES (?, ?, ?, ?, ?, ?)", [user.name, user.cpf, user.birthday, user.nickname, user.email, user.password]);
     }
 
-    //Made in this way to don't need make a lot of calls of update, but values not informed yet need be NULL
+    //This way you don't need a lot of calls for updates, but values not informed yet need to be NULL
     async updateUser(user) {
         return this.query("UPDATE `User` SET `User`.`ocupationUser`=" + user.ocupation + ", `User`.`civilstatusUser=`" + user.civilstatus + ", `User`.`genderUser`=" + user.genderUser + ", `User`.`emailUser`=" + user.email + ", `User`.`passwordUser`=" + user.password + ", `User`.`phonenumberUser`=" + user.phonenumber + ", `User`.`imageUser`=" + user.image + " WHERE `User`.`cpfUser` = '" + user.cpf + "';")
     }

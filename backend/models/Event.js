@@ -26,8 +26,8 @@ module.exports = class {
     }
 
     // Redo
-    static async createNewEvent(params) { // DONE
-        return dbFunc.createNewEvent(params);
+    static async createEvent(params) { // DONE
+        return dbFunc.createEvent(params);
     }
 
     static async deleteEventById(idEvent) { // DONE
@@ -39,7 +39,7 @@ module.exports = class {
     }
 
     // Redo
-    static async updateEventById(idEvent, params) { // DONE
+    static async updateEventById(idEvent, params) { // REDO
         return dbFunc.updateById(idEvent, params);
     }
 
