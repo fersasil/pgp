@@ -10,7 +10,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="register d-flex justify-content-center">
+        <div class="margin-top d-flex justify-content-center">
           <div class="body-form">
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Criar uma conta</p>
@@ -46,7 +46,7 @@
 
               <!-- Texto você já possui conta e link -->
               <p class="blue-text">
-                <router-link :to="{name: 'dashboard'}">Ja possui uma conta ?</router-link>
+                <router-link :to="{name: 'signin'}">Ja possui uma conta ?</router-link>
               </p>
             </form>
           </div>
@@ -102,9 +102,7 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Mansalva&display=swap");
 
-.register {
-  width: 100%;
-  height: 100%;
+.margin-top {
   margin-top: 70px;
 }
 
@@ -205,6 +203,7 @@ input[type="text"]:focus {
     border-radius: 5px;
     background-color: #343a40;
     padding: 18px;
+    padding-bottom: 0px;
     /* border-radius: 1rem; */
     width: 500px;
     height: 550px;
