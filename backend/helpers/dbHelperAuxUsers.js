@@ -32,6 +32,10 @@ module.exports = class {
         return this.query("SELECT * FROM `User` WHERE `User`.`nameUser` = ?", [userName]);
     }
 
+    async findUserByNickname(nicknameUser) {
+        return this.query("SELECT * FROM `User` WHERE `User`.`nicknameUser` = ?", [nicknameUser]);
+    }
+
     // Maybe search users by subevent
     async findUsersByEventID(eventID) {
         return this.query("SELECT `User`.`nameUser`, `User`.`imageUser` FROM `User` INNER JOIN `User_Event` ON `User`.`idUser` = `User_Event`.`userIdUser` INNER JOIN `Event` ON `User_Event`.`eventIdEvent`=`Event`.`idEvent` WHERE `Event`.`idEvent`=" + eventID + ";")

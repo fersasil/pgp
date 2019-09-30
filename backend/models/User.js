@@ -41,8 +41,14 @@ module.exports = class {
         return dbFunc.findUsersByEventID(eventID);
     }
 
-    static async findUserById(id) { // Done
-        return dbFunc.findUserById(id);
+    static async findUserById(userId) { // Done
+        return dbFunc.findUserById(userId);
     }
 
+    // Function: findUserByNickname
+    // Receive: userNickname
+    // Return: 
+    static async findUserByNickname(userNickname){
+        return dbFunc.findUserByNickname(userNickname);
+    }
 };
