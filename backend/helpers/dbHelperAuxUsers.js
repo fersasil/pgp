@@ -27,12 +27,12 @@ module.exports = class {
     async updateUser(params) {
         const keysDB = Object.keys(params);
         let call = "UPDATE `User` SET `User`."
-        for(let key of keysDB){
+        for (let key of keysDB) {
             call += "`User`." + key + "= ?,"
         }
-        call = call.substring(0, call.length-1);
+        call = call.substring(0, call.length - 1);
         call += ";"
-        //params[keysDB]
+            //params[keysDB]
         return this.query(call);
     }
 
@@ -58,5 +58,19 @@ module.exports = class {
         const commonInfo = this;
         return this.query("SELECT * FROM `User` WHERE `User`.`idUser` = '" + userID + "';");
     }
+
+    async loginByNickname(params) {
+        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`nicknameUser` = ?", [params.identifier]);
+    }
+
+    async loginByEmail(params) {
+        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`emailUser` = ?", [params.identifier]);
+    }
+
+    async loginByCPF(params) {
+        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`cpfUser` = ?", [params.identifier]);
+    }
+
+
 
 };
