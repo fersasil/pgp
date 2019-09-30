@@ -24,31 +24,46 @@ module.exports = class {
         });
     }*/
 
+    // ---- Function: createUser ---- //
+    // Receive: params
+    // Returns: 
     static async createUser(params) { // Done
         return dbFunc.createUser(params);
     }
 
+    // ---- Function: updateUser ---- //
+    // Receive: params
+    // Returns: 
     static async updateUser(params) { // Done
         return dbFunc.updateUser(params);
     }
 
-    static async findUserByName(username) { // Done
-        return dbFunc.findUserByName(username);
+    // ---- Function: findUserByName ---- //
+    // Receive: nameUser
+    // Returns: 
+    static async findUserByName(nameUser) { // Done
+        return dbFunc.findUserByName(nameUser);
     }
 
-    // Need Review !! Warning !!!
+    // ------ Need Review !! Warning !!! -----//
+    // ---- Function: findUsersByEventID ---- //
+    // Receive: eventID
+    // Returns: 
     static async findUsersByEventID(eventID) { // Done ?
         return dbFunc.findUsersByEventID(eventID);
     }
 
-    static async findUserById(userId) { // Done
-        return dbFunc.findUserById(userId);
+    // ---- Function: findUserById ---- //
+    // Receive: idUser
+    // Returns: 
+    static async findUserById(idUser) { // Done
+        return dbFunc.findUserById(idUser);
     }
 
-    // Function: findUserByNickname
-    // Receive: userNickname
-    // Return: 
-    static async findUserByNickname(userNickname){
-        return dbFunc.findUserByNickname(userNickname);
+    // ---- Function: findUserByNickname ---- //
+    // Receive: nicknameUser
+    // Returns: 
+    static async findUserByNickname(nicknameUser){
+        return dbFunc.findUserByNickname(nicknameUser);
     }
 };
