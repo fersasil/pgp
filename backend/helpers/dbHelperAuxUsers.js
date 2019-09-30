@@ -24,8 +24,16 @@ module.exports = class {
     }
 
     //This way you don't need a lot of calls for updates, but values not informed yet need to be NULL
-    async updateUser(user) {
-        return this.query("UPDATE `User` SET `User`.`ocupationUser`=" + user.ocupation + ", `User`.`civilstatusUser=`" + user.civilstatus + ", `User`.`genderUser`=" + user.genderUser + ", `User`.`emailUser`=" + user.email + ", `User`.`passwordUser`=" + user.password + ", `User`.`phonenumberUser`=" + user.phonenumber + ", `User`.`imageUser`=" + user.image + " WHERE `User`.`cpfUser` = '" + user.cpf + "';")
+    async updateUser(params) {
+        const keysDB = Object.keys(params);
+        let call = "UPDATE `User` SET `User`."
+        for(let key of keysDB){
+            call += "`User`." + key + "= ?,"
+        }
+        call = call.substring(0, call.length-1);
+        call += ";"
+        //params[keysDB]
+        return this.query(call);
     }
 
     async findUserByName(userName) {

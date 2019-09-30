@@ -27,6 +27,7 @@ module.exports = class {
     // ---- Function: createUser ---- //
     // Receive: params
     // Returns: 
+    // Description: 
     static async createUser(params) { // Done
         return dbFunc.createUser(params);
     }
@@ -34,6 +35,7 @@ module.exports = class {
     // ---- Function: updateUser ---- //
     // Receive: params
     // Returns: 
+    // Description: 
     static async updateUser(params) { // Done
         return dbFunc.updateUser(params);
     }
@@ -41,6 +43,7 @@ module.exports = class {
     // ---- Function: findUserByName ---- //
     // Receive: nameUser
     // Returns: 
+    // Description: 
     static async findUserByName(nameUser) { // Done
         return dbFunc.findUserByName(nameUser);
     }
@@ -49,6 +52,7 @@ module.exports = class {
     // ---- Function: findUsersByEventID ---- //
     // Receive: eventID
     // Returns: 
+    // Description: 
     static async findUsersByEventID(eventID) { // Done ?
         return dbFunc.findUsersByEventID(eventID);
     }
@@ -56,6 +60,7 @@ module.exports = class {
     // ---- Function: findUserById ---- //
     // Receive: idUser
     // Returns: 
+    // Description: 
     static async findUserById(idUser) { // Done
         return dbFunc.findUserById(idUser);
     }
@@ -63,6 +68,7 @@ module.exports = class {
     // ---- Function: findUserByNickname ---- //
     // Receive: nicknameUser
     // Returns: 
+    // Description: 
     static async findUserByNickname(nicknameUser){
         return dbFunc.findUserByNickname(nicknameUser);
     }
