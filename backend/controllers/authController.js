@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const inputHelper = require('../helpers/inputHelper');
 const authHelper = require('../helpers/authHelper');
+const qrCode = require('../helpers/qrcode')
 
 exports.signIn = async(req, res, next) => {
     //Verificar se o login é feito pelo cpf, nome de usuário ou senha!
@@ -85,6 +86,7 @@ exports.signUp = async(req, res, next) => {
             token: token
         }
 
+        qrCode.createUser(user.idUser);
         res.json({ status: 1, data });
 
     } catch (err) {

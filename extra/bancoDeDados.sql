@@ -10,56 +10,53 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema WatashiGaKitta
--- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema WatashiGaKitta
+-- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `WatashiGaKitta` DEFAULT CHARACTER SET utf8 ;
-USE `WatashiGaKitta` ;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`Address`
+-- Table `mydb`.`Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`Address` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Address` (
   `idAddress` INT NOT NULL AUTO_INCREMENT,
   `streetAddress` VARCHAR(255) NOT NULL,
   `numberAddress` VARCHAR(255) NOT NULL,
-  `complementAddress` VARCHAR(255) NULL DEFAULT NULL,
-  `descriptionAddress` VARCHAR(255) NULL DEFAULT NULL,
+  `complementAddress` VARCHAR(255) NULL,
+  `descriptionAddress` VARCHAR(255) NULL,
   PRIMARY KEY (`idAddress`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`Event`
+-- Table `mydb`.`Event`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`Event` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Event` (
   `idEvent` INT NOT NULL AUTO_INCREMENT,
   `titleEvent` VARCHAR(255) NOT NULL,
-  `subtitleEvent` VARCHAR(255) NULL DEFAULT NULL,
+  `subtitleEvent` VARCHAR(255) NULL,
   `descriptionEvent` LONGTEXT NOT NULL,
-  `vagasEvent` TINYINT(4) NULL DEFAULT NULL,
+  `vagasEvent` TINYINT(4) NULL,
   `startEvent` DATETIME NOT NULL,
   `endEvent` DATETIME NOT NULL,
-  `priceEvent` FLOAT NULL DEFAULT NULL,
+  `priceEvent` FLOAT NULL,
   `Address_idAddress` INT NOT NULL,
   PRIMARY KEY (`idEvent`),
   INDEX `fk_Event_Address1_idx` (`Address_idAddress` ASC),
   CONSTRAINT `fk_Event_Address1`
     FOREIGN KEY (`Address_idAddress`)
-    REFERENCES `WatashiGaKitta`.`Address` (`idAddress`)
+    REFERENCES `mydb`.`Address` (`idAddress`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`User`
+-- Table `mydb`.`User`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`User` (
+CREATE TABLE IF NOT EXISTS `mydb`.`User` (
   `idUser` INT NOT NULL AUTO_INCREMENT,
   `nameUser` VARCHAR(255) NULL,
   `cpfUser` VARCHAR(255) NOT NULL,
@@ -70,43 +67,42 @@ CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`User` (
   `nicknameUser` VARCHAR(255) NULL,
   `emailUser` VARCHAR(255) NOT NULL,
   `passwordUser` VARCHAR(255) NOT NULL,
-  `phonenumberUser` VARCHAR(255) NULL DEFAULT NULL,
-  `imageUser` VARCHAR(255) NULL DEFAULT NULL,
+  `phonenumberUser` VARCHAR(255) NULL,
+  `imageUser` VARCHAR(255) NULL,
   PRIMARY KEY (`idUser`),
   UNIQUE INDEX `cpf_UNIQUE` (`cpfUser` ASC),
-  UNIQUE INDEX `email_UNIQUE` (`emailUser` ASC),
-  UNIQUE INDEX `nameUser_UNIQUE` (`nameUser` ASC))
+  UNIQUE INDEX `email_UNIQUE` (`emailUser` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`User_Event`
+-- Table `mydb`.`User_Event`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`User_Event` (
+CREATE TABLE IF NOT EXISTS `mydb`.`User_Event` (
   `userIdUser` INT NOT NULL,
   `eventIdEvent` INT NOT NULL,
   `relationUserEvent` TINYINT(4) NOT NULL,
-  `presence` TINYINT(1) NULL DEFAULT NULL,
+  `presence` TINYINT(1) NULL,
   PRIMARY KEY (`userIdUser`, `eventIdEvent`),
   INDEX `fk_User_has_Event_Event1_idx` (`eventIdEvent` ASC),
   INDEX `fk_User_has_Event_User_idx` (`userIdUser` ASC),
   CONSTRAINT `fk_User_has_Event_User`
     FOREIGN KEY (`userIdUser`)
-    REFERENCES `WatashiGaKitta`.`User` (`idUser`)
+    REFERENCES `mydb`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_User_has_Event_Event1`
     FOREIGN KEY (`eventIdEvent`)
-    REFERENCES `WatashiGaKitta`.`Event` (`idEvent`)
+    REFERENCES `mydb`.`Event` (`idEvent`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`Tag`
+-- Table `mydb`.`Tag`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`Tag` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Tag` (
   `idTag` INT NOT NULL AUTO_INCREMENT,
   `nameTag` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idTag`))
@@ -114,94 +110,94 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`SubEvent`
+-- Table `mydb`.`SubEvent`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`SubEvent` (
+CREATE TABLE IF NOT EXISTS `mydb`.`SubEvent` (
   `idSubEvents` INT NOT NULL AUTO_INCREMENT,
-  `typeSubEvent` VARCHAR(45) NULL DEFAULT NULL,
+  `typeSubEvent` VARCHAR(45) NULL,
   `descriptionSubEvent` LONGTEXT NOT NULL,
-  `vagasSubEvent` TINYINT(4) NULL DEFAULT NULL,
+  `vagasSubEvent` TINYINT(4) NULL,
   `startSubEvent` DATETIME NOT NULL,
   `endSubEvent` DATETIME NOT NULL,
-  `priceSubEvent` FLOAT NULL DEFAULT NULL,
+  `priceSubEvent` FLOAT NULL,
   `Event_idEvent` INT NOT NULL,
   PRIMARY KEY (`idSubEvents`),
   INDEX `fk_SubEvent_Event1_idx` (`Event_idEvent` ASC),
   CONSTRAINT `fk_SubEvent_Event1`
     FOREIGN KEY (`Event_idEvent`)
-    REFERENCES `WatashiGaKitta`.`Event` (`idEvent`)
+    REFERENCES `mydb`.`Event` (`idEvent`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`Event_Tag`
+-- Table `mydb`.`Event_Tag`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`Event_Tag` (
-  `eventidEvent` INT NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `mydb`.`Event_Tag` (
+  `eventidEvent` INT NULL,
   `tagidTag` INT NOT NULL,
-  `SubEvent_idSubEvents` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`tagidTag`),
+  `SubEvent_idSubEvents` INT NULL,
+  PRIMARY KEY (`eventidEvent`, `tagidTag`, `SubEvent_idSubEvents`),
   INDEX `fk_Event_has_Tag_Tag1_idx` (`tagidTag` ASC),
   INDEX `fk_Event_has_Tag_Event1_idx` (`eventidEvent` ASC),
   INDEX `fk_EventTag_SubEvent1_idx` (`SubEvent_idSubEvents` ASC),
   CONSTRAINT `fk_Event_has_Tag_Event1`
     FOREIGN KEY (`eventidEvent`)
-    REFERENCES `WatashiGaKitta`.`Event` (`idEvent`)
+    REFERENCES `mydb`.`Event` (`idEvent`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Event_has_Tag_Tag1`
     FOREIGN KEY (`tagidTag`)
-    REFERENCES `WatashiGaKitta`.`Tag` (`idTag`)
+    REFERENCES `mydb`.`Tag` (`idTag`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_EventTag_SubEvent1`
     FOREIGN KEY (`SubEvent_idSubEvents`)
-    REFERENCES `WatashiGaKitta`.`SubEvent` (`idSubEvents`)
+    REFERENCES `mydb`.`SubEvent` (`idSubEvents`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`Image`
+-- Table `mydb`.`Image`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`Image` (
+CREATE TABLE IF NOT EXISTS `mydb`.`Image` (
   `idImage` INT NOT NULL AUTO_INCREMENT,
-  `nameImage` VARCHAR(45) NULL DEFAULT NULL,
-  `orderImage` VARCHAR(45) NULL DEFAULT NULL,
+  `nameImage` VARCHAR(45) NULL,
+  `orderImage` VARCHAR(45) NULL,
   `localaddressImage` VARCHAR(45) NOT NULL,
   `Event_idEvent` INT NOT NULL,
   PRIMARY KEY (`idImage`),
   INDEX `fk_Image_Event1_idx` (`Event_idEvent` ASC),
   CONSTRAINT `fk_Image_Event1`
     FOREIGN KEY (`Event_idEvent`)
-    REFERENCES `WatashiGaKitta`.`Event` (`idEvent`)
+    REFERENCES `mydb`.`Event` (`idEvent`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WatashiGaKitta`.`User_SubEvent`
+-- Table `mydb`.`User_SubEvent`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WatashiGaKitta`.`User_SubEvent` (
+CREATE TABLE IF NOT EXISTS `mydb`.`User_SubEvent` (
   `userIdUser` INT NOT NULL,
   `subeventIdSubEvents` INT NOT NULL,
   `relationUserSubEvent` TINYINT(4) NOT NULL,
-  `presence` TINYINT(1) NULL DEFAULT NULL,
+  `presence` TINYINT(1) NULL,
   PRIMARY KEY (`userIdUser`, `subeventIdSubEvents`),
   INDEX `fk_User_has_SubEvent_SubEvent1_idx` (`subeventIdSubEvents` ASC),
   INDEX `fk_User_has_SubEvent_User1_idx` (`userIdUser` ASC),
   CONSTRAINT `fk_User_has_SubEvent_User1`
     FOREIGN KEY (`userIdUser`)
-    REFERENCES `WatashiGaKitta`.`User` (`idUser`)
+    REFERENCES `mydb`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_User_has_SubEvent_SubEvent1`
     FOREIGN KEY (`subeventIdSubEvents`)
-    REFERENCES `WatashiGaKitta`.`SubEvent` (`idSubEvents`)
+    REFERENCES `mydb`.`SubEvent` (`idSubEvents`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -210,3 +206,4 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
