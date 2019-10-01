@@ -46,7 +46,7 @@
 
               <!-- Texto você já possui conta e link -->
               <p class="blue-text">
-                <router-link :to="{name: 'signin'}">Ja possui uma conta ?</router-link>
+                <router-link :tbg-primary ="{name: 'signin'}">Ja possui uma conta ?</router-link>
               </p>
             </form>
           </div>
@@ -82,7 +82,7 @@ export default {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
       if (!re.test(this.email)) {
-        this.errors.push("Valid email required.");
+        this.errors.push("Validmargin: 0 auto; email required.");
       }
 
       if (!this.errors.length) {
@@ -122,12 +122,13 @@ export default {
   width: 100%;
 }
 .button-submit {
-  width: 82%;
+  width: 100%;
   color: #fff;
   background-color: green;
   border-color: transparent;
   border-radius: 0.25rem;
 }
+
 .header-main {
   background-color: #343a40;
 }
@@ -135,6 +136,7 @@ export default {
   color: #fff;
   cursor: pointer;
 }
+
 .paragraph-white {
   color: #dcddde;
   font-size: 25px;
@@ -156,21 +158,24 @@ textarea {
   font-size: 16px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 100%;
+  width: 98%;
   border-radius: 3px;
   color: #e9e9e9;
   background-color: #343a40;
   border: 1px solid #212327;
+  display : block;
 }
 
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus {
+  margin: 0 auto;
   outline: none; /* Remove default outline and use border or box-shadow */
   border: none;
   background-color: #343a40;
   color: #e9e9e9;
   box-shadow: 0 0 0 2px gray; /* Full freedom. (works also with border-radius) */
+  
 }
 
 /* Custom, iPhone Retina */

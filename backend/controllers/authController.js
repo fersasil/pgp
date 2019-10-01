@@ -4,6 +4,40 @@ const authHelper = require('../helpers/authHelper');
 const qrCode = require('../helpers/qrcode')
 
 exports.signIn = async(req, res, next) => {
+    //Verificar se o login é feito pelo cpf, nome de usuário ou senha!
+    let user = req.body;
+
+    if (!isNaN(user.identifier)) { //cpf
+        user.type = "cpf"
+    } else if (user.identifier.includes('@')) { // email
+        user.type = "email"
+    } else { // nickname
+        user.type = "nickname"
+    }
+
+    user = await User.login(user);
+
+    if (!user.isloggedIn) {
+        res.json({ isloggedIn: false });
+    }
+
+    //get standart response from . Json webtoken, etc...
+
+    const tokenData = {
+        userId: user.userId,
+        nickname: user.nicknameUser
+    }
+
+    const token = authHelper.generateToken(tokenData);
+
+    const data = {
+        nickname: user.nicknameUser,
+        name: user.nameUser.split()[0],
+        idUser: user.idUser,
+        token: token
+    }
+
+    res.json({ status: 1, data });
 
 }
 

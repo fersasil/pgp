@@ -17,13 +17,13 @@
               <!--Email-->
               <div class="form-group">
                 <label class="text" for="input-email label-required">Email ou Nome de usuário</label>
-                <input v-model="email" type="text" class="form-control-lg" />
+                <input v-model="identifier" type="text" class="form-control-lg" />
               </div>
 
               <!-- Senha -->
               <div class="form-group">
                 <label for="input-senha label-required">Senha</label>
-                <input v-model="confirmPassword" type="password" class="form-control-lg" />
+                <input v-model="password" type="password" class="form-control-lg" />
               </div>
 
               <!--Botão Entrar-->
@@ -48,37 +48,48 @@
 </template>
 
 <script>
+
+import axios from "../axios/authAxios";
+
 export default {
   data() {
     return {
       errors: [],
-      cpf: null,
-      email: null,
-      password: null,
-      confirmPassaword: null
+      identifier: '',
+      password: ''
     };
   },
   methods: {
-    checkForm: function(e) {
+    checkForm: async function(e) {
       // console.log(this.email);
       // console.log(this.name);
       e.preventDefault();
 
-      this.errors = [];
+      const authData = {
+        identifier: this.identifier,
+        password: this.password
+      };
 
-      if (!this.email) {
-        this.errors.push("email required.");
+      let res;
+
+      try{
+        res = await axios.post("sign-in", authData);
+      }
+      catch(err){
+        // console.log(err);
       }
 
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const userData = res.data;
 
-      if (!re.test(this.email)) {
-        this.errors.push("Valid email required.");
+      if(userData.isloggedIn === false){
+        console.log('erro');
+        //TODO: visual
+        return;
       }
 
-      if (!this.errors.length) {
-        return true;
-      }
+      console.log(userData);
+
+      this.$store.dispatch('login', userData);
     }
   },
   mounted() {
