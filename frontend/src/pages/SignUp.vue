@@ -15,28 +15,28 @@
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Criar uma conta</p>
               <!--Email-->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <label class="text" for="input-email label-required">Email</label>
                 <input v-model="email" type="text" class="form-control-lg" />
               </div>
               <!--CPF-->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <label for="input-name label-required">CPF</label>
                 <input v-model="cpf" type="text" class="form-control-lg" />
               </div>
               <!-- Senha -->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <label for="input-senha label-required">Senha</label>
                 <input v-model="password" type="password" class="form-control-lg" />
               </div>
 
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <label for="input-senha label-required">Confirme sua senha</label>
                 <input v-model="confirmPassword" type="password" class="form-control-lg" />
               </div>
 
               <!--Botão Entrar-->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <button
                   type="submit"
                   name="btn-entrar"
@@ -158,7 +158,7 @@ textarea {
   font-size: 16px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 98%;
+  width: 100%;
   border-radius: 3px;
   color: #e9e9e9;
   background-color: #343a40;
@@ -189,9 +189,14 @@ input[type="text"]:focus {
 
   .body-form {
     font-family: "Be Vietnam", sans-serif;
-    padding: 18px;
+    padding: 5px;
     /* border-radius: 1rem; */
     width: 500px;
+  }
+
+  .form-padding{
+    padding: 0px;
+    margin: 0px;
   }
 }
 
@@ -200,6 +205,10 @@ input[type="text"]:focus {
   .body-img {
     background-color: #343a40;
     background-image: url("https://i.imgur.com/M3ioWqh.jpg");
+  }
+
+  .form-padding{
+    padding: 5px 15px;
   }
 
   .body-form {
