@@ -45,12 +45,12 @@ exports.signUp = async(req, res, next) => {
     console.log("OLa");
     const { email, name, cpf, birthday, nickname, password } = req.body;
     const user = {
-        name,
+        // name,
         password,
         cpf,
-        email,
-        birthday,
-        nickname
+        email
+        // birthday,
+        // nickname
     }
 
     const isValidInput = inputHelper.verifyInputs(user);
@@ -60,7 +60,7 @@ exports.signUp = async(req, res, next) => {
         return;
     }
 
-    user.birthday = inputHelper.formatDateToEn(user.birthday);
+    // user.birthday = inputHelper.formatDateToEn(user.birthday);
 
     try {
         const newUserCreated = await User.createUser(user);
@@ -81,12 +81,12 @@ exports.signUp = async(req, res, next) => {
 
         const data = {
             nickname: user.nickname,
-            name: user.name.split()[0],
+            // name: user.name.split()[0],
             idUser: user.idUser,
             token: token
         }
 
-        qrCode.createUser(user.idUser);
+        // qrCode.createUser(user.idUser);
         res.json({ status: 1, data });
 
     } catch (err) {

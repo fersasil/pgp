@@ -8,7 +8,6 @@ Vue.use(Vuex);
 const expireTimeDate = expireInSeconds => {
     const now = new Date();
     const expireTimeMiliseconds = now.getTime() + expireInSeconds * 1000;
-    console.log()
     return new Date(expireTimeMiliseconds);
 }
 
