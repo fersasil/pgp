@@ -1,15 +1,15 @@
 // Importing dependencies
-const	qrCode = require('qrcode');
-const	crypto = require('crypto');
-const   reverseMd5 = require('reverse-md5');
+const qrCode = require('qrcode');
+const crypto = require('crypto');
+const reverseMd5 = require('reverse-md5');
 
 var md5Reverse = reverseMd5({
-	lettersUpper: false,
-	lettersLower: false,
-	numbers: true,
-	special: false,
-	whitespace: false,
-	maxLen: 30
+    lettersUpper: false,
+    lettersLower: false,
+    numbers: true,
+    special: false,
+    whitespace: false,
+    maxLen: 30
 })
 
 // To QRCode image base is 5
@@ -21,7 +21,7 @@ var md5Reverse = reverseMd5({
 // Description: This function return a value encrypted
 // Obs: parseInt(string, 10) => 10 is the base, makes the opposite of this function
 const toStringInBase = (number, base) => {
-	return number.toString(base);
+    return number.toString(base);
 }
 
 // ------------- Function: encrypt ------------- //
@@ -29,8 +29,8 @@ const toStringInBase = (number, base) => {
 // Returns: Hashed string of the original value
 // Description: This function return a value encrypted
 const encrypt = value => {
-	let hash = crypto.createHash('md5').update(value).digest("hex");
-	return hash;
+    let hash = crypto.createHash('md5').update(value).digest("hex");
+    return hash;
 };
 
 // ------------- Function: decrypt ------------- //
@@ -38,9 +38,9 @@ const encrypt = value => {
 // Returns: A string decrypted
 // Description: This function return a value encrypted
 const decrypt = value => {
-	let unHash = md5Reverse(value); 	// unHash receive in 'str' the value decrypted and 'elapsed' as elapsed time to decrypt
-	unHash = unHash.str; 			// unHash now is only the 'str' decrypted
-	return unHash;
+    let unHash = md5Reverse(value); // unHash receive in 'str' the value decrypted and 'elapsed' as elapsed time to decrypt
+    unHash = unHash.str; // unHash now is only the 'str' decrypted
+    return unHash;
 };
 
 // ------------- Function: createImage ----------- //
@@ -60,6 +60,7 @@ const createImage = idUser => {
 		if (err) throw err
 //		console.log('done')
 	})
+
 };
 
 // Improvements
@@ -72,7 +73,3 @@ const getImageNameHash = idUser => {
 	imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
 	return imageName;
 }
-
-//idUser = 100
-//console.log(idUser, toStringInBase(idUser, 5), encrypt(toStringInBase(idUser, 5)), decrypt(encrypt(toStringInBase(idUser, 5))), parseInt(decrypt(encrypt(toStringInBase(idUser, 5))),5))
-//createImage(idUser);

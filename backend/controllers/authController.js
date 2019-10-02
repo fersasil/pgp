@@ -4,6 +4,40 @@ const authHelper = require('../helpers/authHelper');
 const qrCode = require('../helpers/qrcode')
 
 exports.signIn = async(req, res, next) => {
+    //Verificar se o login é feito pelo cpf, nome de usuário ou senha!
+    let user = req.body;
+
+    if (!isNaN(user.identifier)) { //cpf
+        user.type = "cpf"
+    } else if (user.identifier.includes('@')) { // email
+        user.type = "email"
+    } else { // nickname
+        user.type = "nickname"
+    }
+
+    user = await User.login(user);
+
+    if (!user.isloggedIn) {
+        res.json({ isloggedIn: false });
+    }
+
+    //get standart response from . Json webtoken, etc...
+
+    const tokenData = {
+        userId: user.userId,
+        nickname: user.nicknameUser
+    }
+
+    const token = authHelper.generateToken(tokenData);
+
+    const data = {
+        nickname: user.nicknameUser,
+        name: user.nameUser.split()[0],
+        idUser: user.idUser,
+        token: token
+    }
+
+    res.json({ status: 1, data });
 
 }
 
@@ -11,12 +45,12 @@ exports.signUp = async(req, res, next) => {
     console.log("OLa");
     const { email, name, cpf, birthday, nickname, password } = req.body;
     const user = {
-        name,
+        // name,
         password,
         cpf,
-        email,
-        birthday,
-        nickname
+        email
+        // birthday,
+        // nickname
     }
 
     const isValidInput = inputHelper.verifyInputs(user);
@@ -26,7 +60,7 @@ exports.signUp = async(req, res, next) => {
         return;
     }
 
-    user.birthday = inputHelper.formatDateToEn(user.birthday);
+    // user.birthday = inputHelper.formatDateToEn(user.birthday);
 
     try {
         const newUserCreated = await User.createUser(user);
@@ -47,12 +81,12 @@ exports.signUp = async(req, res, next) => {
 
         const data = {
             nickname: user.nickname,
-            name: user.name.split()[0],
+            // name: user.name.split()[0],
             idUser: user.idUser,
             token: token
         }
 
-        qrCode.createUser(user.idUser);
+        // qrCode.createUser(user.idUser);
         res.json({ status: 1, data });
 
     } catch (err) {

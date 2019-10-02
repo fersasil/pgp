@@ -1,13 +1,5 @@
 <template>
   <div class="container">
-    <!-- Para teste apenas -->
-    <!-- <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="(error, i) in errors" v-bind:key="i" >{{ error }}</li>
-      </ul>
-    </p>-->
-
     <div class="row">
       <div class="col-md-12">
         <div class="register d-flex justify-content-center">
@@ -15,19 +7,19 @@
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Entrar</p>
               <!--Email-->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <label class="text" for="input-email label-required">Email ou Nome de usuário</label>
-                <input v-model="email" type="text" class="form-control-lg" />
+                <input v-model="identifier" type="text" class="form-control-lg" />
               </div>
 
               <!-- Senha -->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <label for="input-senha label-required">Senha</label>
-                <input v-model="confirmPassword" type="password" class="form-control-lg" />
+                <input v-model="password" type="password" class="form-control-lg" />
               </div>
 
               <!--Botão Entrar-->
-              <div class="form-group">
+              <div class="form-group form-padding pat-3">
                 <button
                   type="submit"
                   name="btn-entrar"
@@ -48,37 +40,48 @@
 </template>
 
 <script>
+
+import axios from "../axios/authAxios";
+
 export default {
   data() {
     return {
       errors: [],
-      cpf: null,
-      email: null,
-      password: null,
-      confirmPassaword: null
+      identifier: "",
+      password: "",
     };
   },
   methods: {
-    checkForm: function(e) {
-      // console.log(this.email);
-      // console.log(this.name);
+    checkForm: async function(e) {
       e.preventDefault();
 
-      this.errors = [];
+      const authData = {
+        identifier: this.identifier,
+        password: this.password
+      };
 
-      if (!this.email) {
-        this.errors.push("email required.");
+      let res;
+
+      try{
+        res = await axios.post("sign-in", authData);
+      }
+      catch(err){
+        // console.log(err);
       }
 
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const userData = res.data;
 
-      if (!re.test(this.email)) {
-        this.errors.push("Valid email required.");
+      if(userData.isloggedIn === false){
+        console.log('erro');
+        //TODO: visual
+        return;
       }
 
-      if (!this.errors.length) {
-        return true;
-      }
+      console.log(userData);
+
+      this.$store.dispatch('login', userData);
+
+
     }
   },
   mounted() {
@@ -177,9 +180,18 @@ input[type="text"]:focus {
 
   .body-form {
     font-family: "Be Vietnam", sans-serif;
-    padding: 18px;
+    /* padding: 18px; */
     /* border-radius: 1rem; */
     width: 500px;
+  }
+
+  .form-padding {
+    padding-bottom: 20px;
+    margin: 0px;
+  }
+
+  .pat-3 {
+    padding-top: 20px;
   }
 }
 
@@ -199,6 +211,10 @@ input[type="text"]:focus {
     /* border-radius: 1rem; */
     width: 500px;
     height: 380px;
+  }
+
+  .form-padding {
+    padding: 5px 15px;
   }
 }
 </style>

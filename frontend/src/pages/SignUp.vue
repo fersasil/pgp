@@ -15,28 +15,41 @@
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Criar uma conta</p>
               <!--Email-->
-              <div class="form-group">
+              <div :class="classes.email" class="form-group form-padding">
                 <label class="text" for="input-email label-required">Email</label>
-                <input v-model="email" type="text" class="form-control-lg" />
+                <p class="p-error" v-if="errors.email">{{errors.email}}</p>
+                <input v-model="email" type="text" class="form-control-lg normal-input" />
               </div>
               <!--CPF-->
-              <div class="form-group">
+              <div :class="classes.cpf" class="form-group form-padding">
                 <label for="input-name label-required">CPF</label>
-                <input v-model="cpf" type="text" class="form-control-lg" />
+                <p class="p-error" v-if="errors.cpf">{{errors.cpf}}</p>
+                <input v-model="cpf" v-mask="'###.###.###-##'" type="text" class="normal-input form-control-lg" />
               </div>
               <!-- Senha -->
-              <div class="form-group">
-                <label for="input-senha label-required">Senha</label>
-                <input v-model="password" type="password" class="form-control-lg" />
+              <div :class="classes.password" class="form-group form-padding">
+                <div>
+                  <label for="input-senha label-required">Senha</label>
+                  <p class="p-error" v-if="errors.password">{{errors.password}}</p>
+                </div>
+
+                <input v-model="password" type="password" class="normal-input form-control-lg" />
               </div>
 
-              <div class="form-group">
-                <label for="input-senha label-required">Confirme sua senha</label>
-                <input v-model="confirmPassword" type="password" class="form-control-lg" />
+              <div :class="classes.confirmPassword" class="form-group form-padding">
+                <div>
+                  <label for="input-senha label-required">Confirme sua senha</label>
+                  <p class="p-error" v-if="errors.confirmPassword">{{errors.confirmPassword}}</p>
+                </div>
+                <input
+                  v-model="confirmPassword"
+                  type="password"
+                  class="normal-input form-control-lg"
+                />
               </div>
 
               <!--Botão Entrar-->
-              <div class="form-group">
+              <div class="form-group form-padding">
                 <button
                   type="submit"
                   name="btn-entrar"
@@ -57,37 +70,109 @@
 </template>
 
 <script>
+
+import {mask} from 'vue-the-mask';
+import axios from "../axios/authAxios";
+
 export default {
   data() {
     return {
-      errors: [],
-      cpf: null,
-      email: null,
-      password: null,
-      confirmPassaword: null
+      errors: { cpf: "", email: "", password: "", confirmPassword: ""},
+      cpf: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      classes: {
+        email: [],
+        password: [],
+        confirmPassword: [],
+        password: [],
+        cpf: []
+      }
     };
   },
   methods: {
-    checkForm: function(e) {
-      // console.log(this.email);
-      // console.log(this.name);
+
+    checkForm: async function(e) {
       e.preventDefault();
 
-      this.errors = [];
+      let isBlank = false;
+      isBlank += this.verifyEmpty("email");
+      isBlank += this.verifyEmpty("cpf");
+      isBlank += this.verifyEmpty("password");
+      isBlank += this.verifyEmpty("confirmPassword");
 
-      if (!this.email) {
-        this.errors.push("email required.");
+      this.validateEmail();
+
+      this.validateCpf();
+      this.securePassword();
+      this.equalPassword();
+
+      // Mandar para o backend
+
+      const data = {
+        cpf: this.cpf,
+        email: this.email,
+        password: this.password
+      };
+
+      let res;
+
+      try{
+        res = await axios.post("sign-up", data);
+      }
+      catch(err){
+        console.log(err);
       }
 
+      const userData = res.data;
+
+      if(userData.status == -1){
+        console.log('erro');
+        //error: "User already signedUp"
+        //TODO: visual
+        return;
+      }
+
+      console.log(userData);
+
+      this.$store.dispatch('login', userData);
+    },
+
+    securePassword(){
+      //TODO
+    },
+    validateCpf(){
+      //TODO
+    },
+    equalPassword(){
+      //TODO
+    },
+    validateEmail() {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      if (!re.test(this.email)) {
-        this.errors.push("Valid email required.");
+      if (!re.test(this.email.toLowerCase()) && this.classes.email.length === 0) {
+        this.classes.email.push("error");
+        this.errors.email = "Por favor, digite um email valido";
+      }
+      else if(this.classes.email.length > 0 && this.errors.email === "Por favor, digite um email valido"){
+        this.classes.email.pop();
+        this.errors.email = false;
       }
 
-      if (!this.errors.length) {
+      // return re.test(email.toLowerCase());
+    },
+    verifyEmpty(name) {
+      if (this[name] === "" && this.classes[name].length === 0) {
+        this.classes[name].push("error");
+        this.errors[name] = "Por favor, prencha esse campo";
         return true;
+      } else if (this[name] !== "") {
+        this.classes[name].pop();
+        this.errors[name] = false;
       }
+
+      return false;
     }
   },
   mounted() {
@@ -95,12 +180,21 @@ export default {
   },
   destroyed() {
     document.body.classList.remove("body-img");
-  }
+  },
+  directives: {mask}
 };
 </script>
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Mansalva&display=swap");
+
+.p-error {
+  color: #ca2525;
+  margin: 0px;
+  padding: 0px;
+  font-size: 13px;
+  float: right;
+}
 
 .margin-top {
   margin-top: 70px;
@@ -122,12 +216,13 @@ export default {
   width: 100%;
 }
 .button-submit {
-  width: 82%;
+  width: 100%;
   color: #fff;
   background-color: green;
   border-color: transparent;
   border-radius: 0.25rem;
 }
+
 .header-main {
   background-color: #343a40;
 }
@@ -135,6 +230,7 @@ export default {
   color: #fff;
   cursor: pointer;
 }
+
 .paragraph-white {
   color: #dcddde;
   font-size: 25px;
@@ -161,16 +257,38 @@ textarea {
   color: #e9e9e9;
   background-color: #343a40;
   border: 1px solid #212327;
+  display: block;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="text"]:focus {
+.normal-input:focus,
+.normal-input:focus,
+.normal-input:focus {
+  margin: 0 auto;
   outline: none; /* Remove default outline and use border or box-shadow */
   border: none;
   background-color: #343a40;
   color: #e9e9e9;
   box-shadow: 0 0 0 2px gray; /* Full freedom. (works also with border-radius) */
+}
+
+.error input {
+  margin: 0 auto;
+  outline: none; /* Remove default outline and use border or box-shadow */
+  border: none !important;
+  outline: none;
+  box-shadow: 0 0 0 2px #633333;
+  color: #351e1e;
+}
+
+.error input[type="text"]:focus,
+.error input[type="password"]:focus,
+.error input[type="text"]:focus {
+  margin: 0 auto !important;
+  outline: none !important; /* Remove default outline and use border or box-shadow */
+  border: none !important;
+  background-color: #343a40 !important;
+  color: #e9e9e9 !important;
+  box-shadow: 0 0 0 2px rgb(148, 34, 34) !important;
 }
 
 /* Custom, iPhone Retina */
@@ -184,9 +302,14 @@ input[type="text"]:focus {
 
   .body-form {
     font-family: "Be Vietnam", sans-serif;
-    padding: 18px;
+    padding: 5px;
     /* border-radius: 1rem; */
     width: 500px;
+  }
+
+  .form-padding {
+    padding: 0px;
+    margin: 0px;
   }
 }
 
@@ -195,6 +318,10 @@ input[type="text"]:focus {
   .body-img {
     background-color: #343a40;
     background-image: url("https://i.imgur.com/M3ioWqh.jpg");
+  }
+
+  .form-padding {
+    padding: 5px 15px;
   }
 
   .body-form {
@@ -206,7 +333,7 @@ input[type="text"]:focus {
     padding-bottom: 0px;
     /* border-radius: 1rem; */
     width: 500px;
-    height: 550px;
+    height: 580px;
   }
 }
 </style>
