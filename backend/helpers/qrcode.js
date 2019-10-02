@@ -58,15 +58,21 @@ const createImage = idUser => {
 		}
 	}, function (err) {
 		if (err) throw err
-		console.log('done')
+//		console.log('done')
 	})
 };
 
 // Improvements
-// ------------- Function: searchImage ------------ //
 
-// ------------- Function: searchQrCode ----------- //
+// ------------- Function: getImageNameHash ------------ //
+// Receive: idUser //
+// Returns: idUser hashed and concatenated with ".png"
+// Description: //
+const getImageNameHash = idUser => {
+	imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
+	return imageName;
+}
 
-idUser = 100
-console.log(idUser, toStringInBase(idUser, 5), encrypt(toStringInBase(idUser, 5)), decrypt(encrypt(toStringInBase(idUser, 5))), parseInt(decrypt(encrypt(toStringInBase(idUser, 5))),5))
-createImage(idUser);
+//idUser = 100
+//console.log(idUser, toStringInBase(idUser, 5), encrypt(toStringInBase(idUser, 5)), decrypt(encrypt(toStringInBase(idUser, 5))), parseInt(decrypt(encrypt(toStringInBase(idUser, 5))),5))
+//createImage(idUser);
