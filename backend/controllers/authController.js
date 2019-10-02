@@ -86,7 +86,7 @@ exports.signUp = async(req, res, next) => {
             token: token
         }
 
-        qrCode.createUser(user.idUser);
+        // qrCode.createUser(user.idUser);
         res.json({ status: 1, data });
 
     } catch (err) {

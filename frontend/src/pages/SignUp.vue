@@ -123,7 +123,7 @@ export default {
         this.classes.email.push("error");
         this.errors.email = "Por favor, digite um email valido";
       }
-      else if(this.classes.email.length > 0){
+      else if(this.classes.email.length > 0 && this.errors.email === "Por favor, digite um email valido"){
         this.classes.email.pop();
         this.errors.email = false;
       }
