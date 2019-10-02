@@ -301,7 +301,7 @@ textarea {
   }
 
   .body-form {
-    font-family: "Be Vietnam", sans-serif;
+    font-family: " !importantBe Vietnam", sans-serif;
     padding: 5px;
     /* border-radius: 1rem; */
     width: 500px;
@@ -317,7 +317,8 @@ textarea {
 @media only screen and (min-width: 400px) {
   .body-img {
     background-color: #343a40;
-    background-image: url("https://i.imgur.com/M3ioWqh.jpg");
+    /* background-image: url("https://i.imgur.com/M3ioWqh.jpg") !important; */
+    background-image: url('~@/assets/img/login/background.jpg');
   }
 
   .form-padding {

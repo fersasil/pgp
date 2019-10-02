@@ -1,9 +1,12 @@
-// Importing dependencies
 const qrCode = require('qrcode');
 const crypto = require('crypto');
 const reverseMd5 = require('reverse-md5');
+const path = require("path");
+const { baseDir } = require("./rootPath");
+var CryptoJS = require("crypto-js");
 
-var md5Reverse = reverseMd5({
+
+const md5Reverse = reverseMd5({
     lettersUpper: false,
     lettersLower: false,
     numbers: true,
@@ -29,7 +32,7 @@ const toStringInBase = (number, base) => {
 // Returns: Hashed string of the original value
 // Description: This function return a value encrypted
 const encrypt = value => {
-    let hash = crypto.createHash('md5').update(value).digest("hex");
+    const hash = crypto.createHash('md5').update(value).digest("hex");
     return hash;
 };
 
@@ -38,9 +41,8 @@ const encrypt = value => {
 // Returns: A string decrypted
 // Description: This function return a value encrypted
 const decrypt = value => {
-    let unHash = md5Reverse(value); // unHash receive in 'str' the value decrypted and 'elapsed' as elapsed time to decrypt
-    unHash = unHash.str; // unHash now is only the 'str' decrypted
-    return unHash;
+    const unHash = md5Reverse(value); // unHash receive in 'str' the value decrypted and 'elapsed' as elapsed time to decrypt
+    return unHash.str; // unHash now is only the 'str' decrypted
 };
 
 // ------------- Function: createImage ----------- //
@@ -48,18 +50,32 @@ const decrypt = value => {
 // Returns: A string decrypted
 // Description: This function return a value encrypted
 const createImage = idUser => {
-	imageName = "../public/usersQrCode/" + encrypt(toStringInBase(idUser, 7))+".png"; // Image name is idUser in base 7 encrypted in MD5;
-	hash = encrypt(toStringInBase(idUser, 5));
-	qrCode.toFile(imageName, hash, {
-		color: {
-		//dark: '#00F',  // Blue dots
-		light: '#0000', // Transparent background
-		scale: 100
+	const imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
+
+	//const ciphertext = CryptoJS.AES.encrypt(idUser, 'SECRETPGP2019');
+
+
+	//const imageName = ciphertext.toString() + ".png";
+
+
+	//console.log(ciphertext.toString());
+
+	const savePath = path.join(baseDir, "/public/usersQrCode/", imageName); // Image name is idUser in base 7 encrypted in MD5;
+
+	const hashedContent = encrypt(toStringInBase(idUser, 5));
+
+	console.log("Conteudo: ", hashedContent);
+	console.log("nome Img:", imageName);
+	
+	qrCode.toFile(savePath, hashedContent, {
+			color: {
+			light: '#0000', // Transparent background
+			scale: 100
 		}
 	}, function (err) {
-		if (err) throw err
-//		console.log('done')
-	})
+		if(err) throw err;
+	});
+
 
 };
 
@@ -70,6 +86,8 @@ const createImage = idUser => {
 // Returns: idUser hashed and concatenated with ".png"
 // Description: //
 const getImageNameHash = idUser => {
-	imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
+	const imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
 	return imageName;
 }
+
+module.exports = {getImageNameHash, createImage, decrypt, encrypt, toStringInBase, md5Reverse};

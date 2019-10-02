@@ -44,13 +44,11 @@ exports.signIn = async(req, res, next) => {
 exports.signUp = async(req, res, next) => {
     console.log("OLa");
     const { email, name, cpf, birthday, nickname, password } = req.body;
+
     const user = {
-        // name,
         password,
         cpf,
         email
-        // birthday,
-        // nickname
     }
 
     const isValidInput = inputHelper.verifyInputs(user);
@@ -59,8 +57,6 @@ exports.signUp = async(req, res, next) => {
         res.json({ status: "-1", error: 'Invalid inputs' });
         return;
     }
-
-    // user.birthday = inputHelper.formatDateToEn(user.birthday);
 
     try {
         const newUserCreated = await User.createUser(user);
@@ -81,23 +77,21 @@ exports.signUp = async(req, res, next) => {
 
         const data = {
             nickname: user.nickname,
-            // name: user.name.split()[0],
             idUser: user.idUser,
             token: token
         }
 
-        // qrCode.createUser(user.idUser);
+        qrCode.createImage(user.idUser);
+        
         res.json({ status: 1, data });
 
     } catch (err) {
         if (err.code === 'ER_DUP_ENTRY') {
-            //Logica para encontrar o campo do erro que esta duplicado
             // TODO: mover para outro arquivo
 
             const errorAsString = err.toString();
             const errorSubstring = errorAsString.substring(errorAsString.indexOf('key'));
             const duplicatedField = errorSubstring.split('\'')[1];
-
 
             const error = new Error("User already signedUp");
             error.status = 400;
@@ -115,7 +109,7 @@ exports.signUp = async(req, res, next) => {
 
             return;
         }
+
         res.json({ status: "-1", error: "Backend Error" })
-        console.log(err);
     }
 };
