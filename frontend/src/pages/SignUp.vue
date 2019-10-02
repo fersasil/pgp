@@ -17,22 +17,22 @@
               <!--Email-->
               <div class="form-group form-padding">
                 <label class="text" for="input-email label-required">Email</label>
-                <input v-model="email" type="text" class="form-control-lg" />
+                <input v-model="email" type="text" class="form-control-lg normal-input" />
               </div>
               <!--CPF-->
-              <div class="form-group form-padding">
+              <div :class="classes" class="form-group form-padding">
                 <label for="input-name label-required">CPF</label>
-                <input v-model="cpf" type="text" class="form-control-lg" />
+                <input v-model="cpf" type="text" class="normal-input form-control-lg" />
               </div>
               <!-- Senha -->
               <div class="form-group form-padding">
                 <label for="input-senha label-required">Senha</label>
-                <input v-model="password" type="password" class="form-control-lg" />
+                <input v-model="password" type="password" class="normal-input form-control-lg" />
               </div>
 
               <div class="form-group form-padding">
                 <label for="input-senha label-required">Confirme sua senha</label>
-                <input v-model="confirmPassword" type="password" class="form-control-lg" />
+                <input v-model="confirmPassword" type="password" class="normal-input form-control-lg" />
               </div>
 
               <!--Botão Entrar-->
@@ -46,7 +46,7 @@
 
               <!-- Texto você já possui conta e link -->
               <p class="blue-text">
-                <router-link :tbg-primary ="{name: 'signin'}">Ja possui uma conta ?</router-link>
+                <router-link :to="{name: 'signin'}">Ja possui uma conta ?</router-link>
               </p>
             </form>
           </div>
@@ -61,17 +61,25 @@ export default {
   data() {
     return {
       errors: [],
-      cpf: null,
-      email: null,
-      password: null,
-      confirmPassaword: null
+      cpf: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      classes: []
     };
   },
   methods: {
     checkForm: function(e) {
+      e.preventDefault();
+      
+      if(this.email === ""){
+        console.log("ola")
+        this.classes.push("error");
+        console.log(this.classes);
+        return;
+      }
       // console.log(this.email);
       // console.log(this.name);
-      e.preventDefault();
 
       this.errors = [];
 
@@ -166,9 +174,9 @@ textarea {
   display : block;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="text"]:focus {
+.normal-input:focus,
+.normal-input:focus,
+.normal-input:focus {
   margin: 0 auto;
   outline: none; /* Remove default outline and use border or box-shadow */
   border: none;
@@ -176,6 +184,26 @@ input[type="text"]:focus {
   color: #e9e9e9;
   box-shadow: 0 0 0 2px gray; /* Full freedom. (works also with border-radius) */
   
+}
+
+.error input{
+    margin: 0 auto;
+    outline: none; /* Remove default outline and use border or box-shadow */
+    border: none !important;
+    outline: none;
+    box-shadow: 0 0 0 2px #633333;
+    color: #351e1e;
+}
+
+.error input[type="text"]:focus,
+.error input[type="password"]:focus,
+.error input[type="text"]:focus{
+  margin: 0 auto !important;
+  outline: none !important; /* Remove default outline and use border or box-shadow */
+  border: none !important;
+  background-color: #343a40 !important;
+  color: #e9e9e9 !important;
+  box-shadow: 0 0 0 2px rgb(148, 34, 34) !important;
 }
 
 /* Custom, iPhone Retina */
