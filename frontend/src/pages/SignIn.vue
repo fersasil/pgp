@@ -77,7 +77,7 @@ export default {
         return;
       }
 
-      console.log(userData);
+      // console.log(userData);
 
       this.$store.dispatch('login', userData);
 

@@ -46,11 +46,12 @@ export default new Vuex.Store({
         login({ commit, dispatch }, userData) {
             commit('authUser', userData);
 
-            router.push({ name: "dashboard" });
             dispatch('setLogoutTimer', 3600); // 1hora
 
             userData.expiresIn = 3600;
             saveLocalStorage(userData);
+
+            router.push({ name: "dashboard" });
         },
 
         setLogoutTimer({ dispatch }, expiresIn) {
