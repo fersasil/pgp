@@ -71,7 +71,8 @@
 
 <script>
 
-import {mask} from 'vue-the-mask'
+import {mask} from 'vue-the-mask';
+import axios from "../axios/authAxios";
 
 export default {
   data() {
@@ -91,7 +92,8 @@ export default {
     };
   },
   methods: {
-    checkForm: function(e) {
+
+    checkForm: async function(e) {
       e.preventDefault();
 
       let isBlank = false;
@@ -105,6 +107,36 @@ export default {
       this.validateCpf();
       this.securePassword();
       this.equalPassword();
+
+      // Mandar para o backend
+
+      const data = {
+        cpf: this.cpf,
+        email: this.email,
+        password: this.password
+      };
+
+      let res;
+
+      try{
+        res = await axios.post("sign-up", data);
+      }
+      catch(err){
+        console.log(err);
+      }
+
+      const userData = res.data;
+
+      if(userData.status == -1){
+        console.log('erro');
+        //error: "User already signedUp"
+        //TODO: visual
+        return;
+      }
+
+      console.log(userData);
+
+      this.$store.dispatch('login', userData);
     },
 
     securePassword(){
