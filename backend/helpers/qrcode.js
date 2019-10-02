@@ -48,25 +48,28 @@ const decrypt = value => {
 // Returns: A string decrypted
 // Description: This function return a value encrypted
 const createImage = idUser => {
-    imageName = "../public/usersQrCode/" + encrypt(toStringInBase(idUser, 7)) + ".png"; // Image name is idUser in base 7 encrypted in MD5;
-    hash = encrypt(toStringInBase(idUser, 5));
-    qrCode.toFile(imageName, hash, {
-        color: {
-            //dark: '#00F',  // Blue dots
-            light: '#0000', // Transparent background
-            scale: 100
-        }
-    }, function (err) {
-        if (err) throw err
-        console.log('done')
-    })
+	imageName = "../public/usersQrCode/" + encrypt(toStringInBase(idUser, 7))+".png"; // Image name is idUser in base 7 encrypted in MD5;
+	hash = encrypt(toStringInBase(idUser, 5));
+	qrCode.toFile(imageName, hash, {
+		color: {
+		//dark: '#00F',  // Blue dots
+		light: '#0000', // Transparent background
+		scale: 100
+		}
+	}, function (err) {
+		if (err) throw err
+//		console.log('done')
+	})
+
 };
 
 // Improvements
-// ------------- Function: searchImage ------------ //
 
-// ------------- Function: searchQrCode ----------- //
-
-// idUser = 100
-// console.log(idUser, toStringInBase(idUser, 5), encrypt(toStringInBase(idUser, 5)), decrypt(encrypt(toStringInBase(idUser, 5))), parseInt(decrypt(encrypt(toStringInBase(idUser, 5))),5))
-// createImage(idUser);
+// ------------- Function: getImageNameHash ------------ //
+// Receive: idUser //
+// Returns: idUser hashed and concatenated with ".png"
+// Description: //
+const getImageNameHash = idUser => {
+	imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
+	return imageName;
+}
