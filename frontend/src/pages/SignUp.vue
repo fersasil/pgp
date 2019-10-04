@@ -18,13 +18,24 @@
               <div :class="classes.email" class="form-group form-padding">
                 <label class="text" for="input-email label-required">Email</label>
                 <p class="p-error" v-if="errors.email">{{errors.email}}</p>
-                <input v-model="email" type="text" class="form-control-lg normal-input" />
+                <input
+                  @blur="emailIsUsable"
+                  v-model="email"
+                  type="text"
+                  class="form-control-lg normal-input"
+                />
               </div>
               <!--CPF-->
               <div :class="classes.cpf" class="form-group form-padding">
                 <label for="input-name label-required">CPF</label>
                 <p class="p-error" v-if="errors.cpf">{{errors.cpf}}</p>
-                <input v-model="cpf" v-mask="'###.###.###-##'" type="text" class="normal-input form-control-lg" />
+                <input
+                  @blur="cpfIsUsable"
+                  v-model="cpf"
+                  v-mask="'###.###.###-##'"
+                  type="text"
+                  class="normal-input form-control-lg"
+                />
               </div>
               <!-- Senha -->
               <div :class="classes.password" class="form-group form-padding">
@@ -42,6 +53,7 @@
                   <p class="p-error" v-if="errors.confirmPassword">{{errors.confirmPassword}}</p>
                 </div>
                 <input
+                  @blur="passwordIsEqual"
                   v-model="confirmPassword"
                   type="password"
                   class="normal-input form-control-lg"
@@ -70,28 +82,105 @@
 </template>
 
 <script>
-
-import {mask} from 'vue-the-mask';
+import { mask } from "vue-the-mask";
 import axios from "../axios/authAxios";
 
 export default {
   data() {
     return {
-      errors: { cpf: "", email: "", password: "", confirmPassword: ""},
+      errors: { cpf: "", email: "", password: "", confirmPassword: "" },
       cpf: "",
       email: "",
       password: "",
       confirmPassword: "",
       classes: {
-        email: [],
+        email: "",
         password: [],
-        confirmPassword: [],
+        confirmPassword: "",
         password: [],
-        cpf: []
+        cpf: ""
       }
     };
   },
   methods: {
+    emailIsUsable() {
+      if (!this.validateEmail()) return;
+      //TODO verificar se o email esta disponível no sistema antes!
+
+      //MOVE this to function above ?
+      this.classes.email = "success-input";
+    },
+
+    passwordIsEqual(){
+      if(this.password === this.confirmPassword){
+        this.classes.confirmPassword = "success-input";
+        
+        this.errors.confirmPassword = "";
+        return;
+      }
+
+      this.classes.confirmPassword = "error";
+      this.errors.confirmPassword = "Senhas diferentes";
+
+    },
+
+    cpfIsUsable() {
+     
+      if(this.cpf === ""){
+        this.classes.cpf = "";
+        this.errors.cpf = "";
+
+        return;
+      }
+
+      if (!this.validateCpf()){
+        this.classes.cpf = "error";
+        this.errors.cpf = "CPF inválido";
+        return;
+      }
+
+      this.classes.cpf = "";
+      this.errors.cpf = "";
+
+      this.classes.cpf = "success-input";
+    },
+
+    validateCpf(){
+      //TODO: Algoritmo não muito bom, essas entradas passam! ps: mudar padrão para ingles 222222222, 3333333... 
+      const strCPF = this.cpf.replace(/\D/g, "");
+      
+      let Soma, Resto, i;
+      
+      Soma = 0;
+      if (strCPF == "00000000000") return false;
+
+      if (strCPF == "11111111111") return false;
+
+
+      for (i = 1; i <= 9; i++)
+        Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+      Resto = (Soma * 10) % 11;
+
+      if (Resto == 10 || Resto == 11) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+      Soma = 0;
+      for (i = 1; i <= 10; i++)
+        Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+      Resto = (Soma * 10) % 11;
+
+      if (Resto == 10 || Resto == 11) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+      return true;
+    },
+
+    // validateCpf() {
+    //   console.log("oi");
+      
+    //   console.log(strCPF);
+
+      
+    // },
 
     checkForm: async function(e) {
       e.preventDefault();
@@ -118,17 +207,16 @@ export default {
 
       let res;
 
-      try{
+      try {
         res = await axios.post("sign-up", data);
-      }
-      catch(err){
+      } catch (err) {
         console.log(err);
       }
 
       const userData = res.data;
 
-      if(userData.status == -1){
-        console.log('erro');
+      if (userData.status == -1) {
+        console.log("erro");
         //error: "User already signedUp"
         //TODO: visual
         return;
@@ -136,28 +224,33 @@ export default {
 
       console.log(userData);
 
-      this.$store.dispatch('login', userData);
+      this.$store.dispatch("login", userData);
     },
 
-    securePassword(){
+    securePassword() {
       //TODO
     },
-    validateCpf(){
-      //TODO
-    },
-    equalPassword(){
+    // validateCpf() {
+    //   //TODO
+    // },
+    equalPassword() {
       //TODO
     },
     validateEmail() {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      if (!re.test(this.email.toLowerCase()) && this.classes.email.length === 0) {
-        this.classes.email.push("error");
+      if (!re.test(this.email.toLowerCase())) {
+        this.classes.email = "error";
         this.errors.email = "Por favor, digite um email valido";
-      }
-      else if(this.classes.email.length > 0 && this.errors.email === "Por favor, digite um email valido"){
-        this.classes.email.pop();
+        return false;
+      } else if (
+        this.classes.email.length > 0 &&
+        this.errors.email === "Por favor, digite um email valido"
+      ) {
+        this.classes.email = "";
         this.errors.email = false;
+
+        return true;
       }
 
       // return re.test(email.toLowerCase());
@@ -181,7 +274,7 @@ export default {
   destroyed() {
     document.body.classList.remove("body-img");
   },
-  directives: {mask}
+  directives: { mask }
 };
 </script>
 
@@ -194,6 +287,15 @@ export default {
   padding: 0px;
   font-size: 13px;
   float: right;
+}
+
+.success-input input {
+  margin: 0 auto;
+  outline: none; /* Remove default outline and use border or box-shadow */
+  border: none !important;
+  outline: none;
+  box-shadow: 0 0 0 2px #0d5d0d;
+  color: #351e1e;
 }
 
 .margin-top {
@@ -318,7 +420,7 @@ textarea {
   .body-img {
     background-color: #343a40;
     /* background-image: url("https://i.imgur.com/M3ioWqh.jpg") !important; */
-    background-image: url('~@/assets/img/login/background.jpg');
+    background-image: url("~@/assets/img/login/background.jpg");
   }
 
   .form-padding {
