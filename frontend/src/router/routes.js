@@ -28,7 +28,7 @@ import * as guards from "@/middleware/auth";
 const routes = [{
         path: "/",
         component: PresentationLayout,
-        // beforeEnter: guards.isLogged,
+        beforeEnter: guards.isLogged,
         children: [{
                 path: "/",
                 name: "welcome",
