@@ -69,6 +69,14 @@ module.exports = class {
         return dbFunc.findUserById(idUser);
     }
 
+    static async findUserByEmail(params) { // Done
+        return dbFunc.findUserByEmail(params);
+    }
+
+    static async findUserByCpf(params) { // Done
+        return dbFunc.findUserByCpf(params);
+    }
+
     // ---- Function: findUserByNickname ---- //
     // Receive: nicknameUser
     // Returns: 

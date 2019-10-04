@@ -3,6 +3,63 @@ const inputHelper = require('../helpers/inputHelper');
 const authHelper = require('../helpers/authHelper');
 const qrCode = require('../helpers/qrcode')
 
+exports.emailInUse = async(req, res, next) => {
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log(fullUrl);
+    const { email } = req.query;
+    let user;
+
+    if(email === undefined){
+        res.json({isInUse: true, error: "Query is empty"});
+        return;
+    }
+
+    try{
+        user = await User.findUserByEmail({email});
+    }
+    catch(err) {
+        err.status = 500;
+        throw err;
+    }
+    
+    if(user.length === 0){
+        res.json({isInUse: false})
+        return;
+    }
+
+    res.json({isInUse: true})
+
+}
+
+exports.cpfInUse = async(req, res, next) => {
+    let { cpf } = req.query;
+    let user;
+
+    if(cpf === undefined){
+        res.json({isInUse: true, error: "Query is empty"});
+        return;
+    }
+
+    cpf = cpf.replace(/\D/g,'');
+
+    try{
+        user = await User.findUserByCpf({cpf});
+    }
+    catch(err) {
+        err.status = 500;
+        throw err;
+    }
+    
+    if(user.length === 0){
+        res.json({isInUse: false})
+        return;
+    }
+
+    res.json({isInUse: true})
+
+}
+
+
 exports.signIn = async(req, res, next) => {
     //Verificar se o login é feito pelo cpf, nome de usuário ou senha!
     let user = req.body;
