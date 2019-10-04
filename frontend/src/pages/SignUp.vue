@@ -1,13 +1,5 @@
 <template>
   <div class="container">
-    <!-- Para teste apenas -->
-    <!-- <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="(error, i) in errors" v-bind:key="i" >{{ error }}</li>
-      </ul>
-    </p>-->
-
     <div class="row">
       <div class="col-md-12">
         <div class="margin-top d-flex justify-content-center">
@@ -44,7 +36,12 @@
                   <p class="p-error" v-if="errors.password">{{errors.password}}</p>
                 </div>
 
-                <input v-model="password" type="password" class="normal-input form-control-lg" />
+                <input
+                  @input="passwordIsUsable"
+                  v-model="password"
+                  type="password"
+                  class="normal-input form-control-lg"
+                />
               </div>
 
               <div :class="classes.confirmPassword" class="form-group form-padding">
@@ -53,7 +50,7 @@
                   <p class="p-error" v-if="errors.confirmPassword">{{errors.confirmPassword}}</p>
                 </div>
                 <input
-                  @blur="passwordIsEqual"
+                  @input="passwordIsEqual"
                   v-model="confirmPassword"
                   type="password"
                   class="normal-input form-control-lg"
@@ -95,45 +92,77 @@ export default {
       confirmPassword: "",
       classes: {
         email: "",
-        password: [],
+        password: "",
         confirmPassword: "",
-        password: [],
         cpf: ""
       }
     };
   },
   methods: {
+    passwordIsUsable() {
+      this.confirmPassword = "";
+      this.classes.confirmPassword = "";
+      this.errors.confirmPassword = "";
+
+      if(this.password === ""){
+        this.classes.password = "";
+        this.errors.password = "";
+        return;
+      }
+
+      //TODO: caracteres especiais também?
+      if (this.password.length >= 5) {
+        this.classes.password = "success-input";
+        this.errors.password = "";
+        return;
+      }
+
+      this.classes.password = "error";
+      this.errors.password = "Senha fraca";
+    },
     emailIsUsable() {
+      if (this.email === "") {
+        this.classes.email = "";
+        this.errors.email = "";
+        return;
+      }
+
       if (!this.validateEmail()) return;
       //TODO verificar se o email esta disponível no sistema antes!
 
       //MOVE this to function above ?
       this.classes.email = "success-input";
+      // this.errors.email = "";
     },
 
-    passwordIsEqual(){
-      if(this.password === this.confirmPassword){
+    passwordIsEqual() {
+      if (this.confirmPassword === "") {
+        this.errors.confirmPassword = "";
+        this.classes.confirmPassword = "";
+
+        return;
+      }
+
+      if (this.password === this.confirmPassword) {
         this.classes.confirmPassword = "success-input";
-        
+
         this.errors.confirmPassword = "";
         return;
       }
 
       this.classes.confirmPassword = "error";
       this.errors.confirmPassword = "Senhas diferentes";
-
     },
 
     cpfIsUsable() {
-     
-      if(this.cpf === ""){
+      if (this.cpf === "") {
         this.classes.cpf = "";
         this.errors.cpf = "";
 
         return;
       }
 
-      if (!this.validateCpf()){
+      if (!this.validateCpf()) {
         this.classes.cpf = "error";
         this.errors.cpf = "CPF inválido";
         return;
@@ -145,17 +174,16 @@ export default {
       this.classes.cpf = "success-input";
     },
 
-    validateCpf(){
-      //TODO: Algoritmo não muito bom, essas entradas passam! ps: mudar padrão para ingles 222222222, 3333333... 
+    validateCpf() {
+      //TODO: Algoritmo não muito bom, essas entradas passam! ps: mudar padrão para ingles 222222222, 3333333...
       const strCPF = this.cpf.replace(/\D/g, "");
-      
+
       let Soma, Resto, i;
-      
+
       Soma = 0;
       if (strCPF == "00000000000") return false;
 
       if (strCPF == "11111111111") return false;
-
 
       for (i = 1; i <= 9; i++)
         Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
@@ -173,14 +201,6 @@ export default {
       if (Resto != parseInt(strCPF.substring(10, 11))) return false;
       return true;
     },
-
-    // validateCpf() {
-    //   console.log("oi");
-      
-    //   console.log(strCPF);
-
-      
-    // },
 
     checkForm: async function(e) {
       e.preventDefault();
@@ -296,6 +316,17 @@ export default {
   outline: none;
   box-shadow: 0 0 0 2px #0d5d0d;
   color: #351e1e;
+}
+
+.success-input input[type="text"]:focus,
+.success-input input[type="password"]:focus,
+.success-input input[type="text"]:focus {
+  margin: 0 auto !important;
+  outline: none !important; /* Remove default outline and use border or box-shadow */
+  border: none !important;
+  background-color: #343a40 !important;
+  /* color: green !important; */
+  box-shadow: 0 0 0 2px #169616 !important;
 }
 
 .margin-top {
