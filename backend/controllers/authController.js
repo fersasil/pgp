@@ -3,6 +3,63 @@ const inputHelper = require('../helpers/inputHelper');
 const authHelper = require('../helpers/authHelper');
 const qrCode = require('../helpers/qrcode')
 
+exports.emailInUse = async(req, res, next) => {
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log(fullUrl);
+    const { email } = req.query;
+    let user;
+
+    if(email === undefined){
+        res.json({isInUse: true, error: "Query is empty"});
+        return;
+    }
+
+    try{
+        user = await User.findUserByEmail({email});
+    }
+    catch(err) {
+        err.status = 500;
+        throw err;
+    }
+    
+    if(user.length === 0){
+        res.json({isInUse: false})
+        return;
+    }
+
+    res.json({isInUse: true})
+
+}
+
+exports.cpfInUse = async(req, res, next) => {
+    let { cpf } = req.query;
+    let user;
+
+    if(cpf === undefined){
+        res.json({isInUse: true, error: "Query is empty"});
+        return;
+    }
+
+    cpf = cpf.replace(/\D/g,'');
+
+    try{
+        user = await User.findUserByCpf({cpf});
+    }
+    catch(err) {
+        err.status = 500;
+        throw err;
+    }
+    
+    if(user.length === 0){
+        res.json({isInUse: false})
+        return;
+    }
+
+    res.json({isInUse: true})
+
+}
+
+
 exports.signIn = async(req, res, next) => {
     //Verificar se o login é feito pelo cpf, nome de usuário ou senha!
     let user = req.body;
@@ -17,8 +74,12 @@ exports.signIn = async(req, res, next) => {
 
     user = await User.login(user);
 
+    console.log(user);
+
     if (!user.isloggedIn) {
-        res.json({ isloggedIn: false });
+        // console.log("oi");
+        res.json(user);
+        return;
     }
 
     //get standart response from . Json webtoken, etc...
@@ -31,8 +92,6 @@ exports.signIn = async(req, res, next) => {
     const token = authHelper.generateToken(tokenData);
 
     const data = {
-        nickname: user.nicknameUser,
-        name: user.nameUser.split()[0],
         idUser: user.idUser,
         token: token
     }
@@ -43,7 +102,7 @@ exports.signIn = async(req, res, next) => {
 
 exports.signUp = async(req, res, next) => {
     console.log("OLa");
-    const { email, name, cpf, birthday, nickname, password } = req.body;
+    const { email, cpf, password } = req.body;
 
     const user = {
         password,
@@ -57,6 +116,9 @@ exports.signUp = async(req, res, next) => {
         res.json({ status: "-1", error: 'Invalid inputs' });
         return;
     }
+
+    //Cpf é passado como 000.000.00.47
+    user.cpf = user.cpf.replace(/\D/g,'');
 
     try {
         const newUserCreated = await User.createUser(user);

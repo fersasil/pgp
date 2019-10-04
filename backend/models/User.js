@@ -1,6 +1,9 @@
 const dbHelper = require('../helpers/dbHelperAuxUsers');
 const dbFunc = new dbHelper('User');
 
+const USER_NOT_FOUND = 1;
+const WRONG_PASSWORD = 2;
+
 module.exports = class {
     constructor(params) {
         this.userId = params.idUser;
@@ -66,6 +69,14 @@ module.exports = class {
         return dbFunc.findUserById(idUser);
     }
 
+    static async findUserByEmail(params) { // Done
+        return dbFunc.findUserByEmail(params);
+    }
+
+    static async findUserByCpf(params) { // Done
+        return dbFunc.findUserByCpf(params);
+    }
+
     // ---- Function: findUserByNickname ---- //
     // Receive: nicknameUser
     // Returns: 
@@ -91,8 +102,9 @@ module.exports = class {
         }
 
         if (user[0] === undefined) {
-            return false;
+            return {loggedIn: false, error: USER_NOT_FOUND};
         }
+
 
         // TODO: encripitar a senha!
         if (user[0].passwordUser === params.password) {
@@ -101,6 +113,6 @@ module.exports = class {
             return user[0];
         }
 
-        return false;
+        return {loggedIn: false, error: WRONG_PASSWORD};
     }
 };

@@ -6,16 +6,20 @@
           <div class="body-form">
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Entrar</p>
+
               <!--Email-->
               <div class="form-group form-padding">
-                <label class="text" for="input-email label-required">Email ou Nome de usuário</label>
-                <input v-model="identifier" type="text" class="form-control-lg" />
+                <label v-if="errors.identifier.length === 0" class="text" for="input-email label-required">Email ou Nome de usuário</label>
+                <label v-else class="p-login-error" for="input-email label-required">{{messageIdentifier}}</label>
+                <input :class="errors.identifier" class="form-control-lg" v-model="identifier" type="text"  />
               </div>
 
               <!-- Senha -->
               <div class="form-group form-padding">
-                <label for="input-senha label-required">Senha</label>
-                <input v-model="password" type="password" class="form-control-lg" />
+                <label v-if="errors.password.length === 0" for="input-senha label-required">Senha</label>
+                <label v-else class="p-login-error" for="input-email label-required">{{messagePassword}}</label>                
+                <input :class="errors.password" v-model="password" type="password" class="form-control-lg" />
+
               </div>
 
               <!--Botão Entrar-->
@@ -46,14 +50,28 @@ import axios from "../axios/authAxios";
 export default {
   data() {
     return {
-      errors: [],
+      errors: {identifier: "", password: "", message: {identifier: "", password: ""}},
       identifier: "",
       password: "",
     };
   },
+  computed: {
+    messageIdentifier (){
+      return this.errors.message.identifier;
+    },
+    messagePassword(){
+      return this.errors.message.password;
+    }
+  },
   methods: {
     checkForm: async function(e) {
       e.preventDefault();
+
+      //Checar os inputs antes de mandar para o backend
+      let isEmpty = this.verifyEmpty("identifier");
+      isEmpty += this.verifyEmpty("password");
+
+      if(isEmpty) return;
 
       const authData = {
         identifier: this.identifier,
@@ -67,21 +85,58 @@ export default {
       }
       catch(err){
         // console.log(err);
-      }
+      };
 
       const userData = res.data;
 
-      if(userData.isloggedIn === false){
-        console.log('erro');
-        //TODO: visual
-        return;
-      }
-
-      // console.log(userData);
+      if(!this.checkErrorsInResponse(userData)) return;
 
       this.$store.dispatch('login', userData);
 
 
+    },
+
+    verifyEmpty(name) {
+      if (this[name] === "") {
+        this.errors[name] = "login-error-input";
+        
+        let fieldName;
+
+        if(name === "identifier") fieldName = "Usuário";
+        else if(name === "password") fieldName = "Senha"
+
+        this.errors.message[name] = `${fieldName} - Campo em branco!`;
+        return true;
+      } else if (this[name] !== "") {
+        this.errors[name] = "";
+      }
+
+      return false;
+    },
+
+    checkErrorsInResponse(userData){
+      if(userData.loggedIn === false){
+        if(userData.error == 1 && this.errors.identifier.length === 0){ //email errado
+          this.errors.identifier = "login-error-input";
+          this.errors.message.identifier = "Usuário não encontrado no sistema";
+
+          //caso haja algum outro erro, o retirar.
+          this.errors.password = "";
+
+          //limpar a senha
+          this.password = "";
+        }
+
+        else if(userData.error == 2 && this.errors.password.length === 0){ //senha errada
+          this.errors.password = "login-error-input";
+          this.errors.message.password = "Senha incorreta";
+          this.errors.identifier = "";
+        }
+        
+        return false;
+      }
+
+      return true;
     }
   },
   mounted() {
@@ -95,6 +150,15 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Mansalva&display=swap");
+
+.p-login-error {
+  color: #882828;
+}
+
+.login-error-input{
+  border-color: #882828 !important;
+  color: #882828 !important;
+}
 
 .register {
   width: 100%;
