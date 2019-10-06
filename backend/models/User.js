@@ -1,6 +1,9 @@
 const dbHelper = require('../helpers/dbHelperAuxUsers');
 const dbFunc = new dbHelper('User');
 
+const USER_NOT_FOUND = 1;
+const WRONG_PASSWORD = 2;
+
 module.exports = class {
     constructor(params) {
         this.userId = params.idUser;
@@ -29,6 +32,7 @@ module.exports = class {
     // Returns: 
     // Description: 
     static async createUser(params) { // Done
+        //Todo encriptar a senha do usuário antes de salvar no banco!
         return dbFunc.createUser(params);
     }
 
@@ -65,11 +69,50 @@ module.exports = class {
         return dbFunc.findUserById(idUser);
     }
 
+    static async findUserByEmail(params) { // Done
+        return dbFunc.findUserByEmail(params);
+    }
+
+    static async findUserByCpf(params) { // Done
+        return dbFunc.findUserByCpf(params);
+    }
+
     // ---- Function: findUserByNickname ---- //
     // Receive: nicknameUser
     // Returns: 
     // Description: 
-    static async findUserByNickname(nicknameUser){
+    static async findUserByNickname(nicknameUser) {
         return dbFunc.findUserByNickname(nicknameUser);
+    }
+
+    static async login(params) {
+        let user;
+
+        try {
+
+            if (params.type === "nickname") {
+                user = await dbFunc.loginByNickname(params);
+            } else if (params.type === 'email') {
+                user = await dbFunc.loginByEmail(params);
+            } else if (params.type === 'cpf') {
+                user = await dbFunc.loginByCPF(params);
+            }
+        } catch (err) {
+            console.log(...err);
+        }
+
+        if (user[0] === undefined) {
+            return {loggedIn: false, error: USER_NOT_FOUND};
+        }
+
+
+        // TODO: encripitar a senha!
+        if (user[0].passwordUser === params.password) {
+            user[0].isloggedIn = true;
+
+            return user[0];
+        }
+
+        return {loggedIn: false, error: WRONG_PASSWORD};
     }
 };

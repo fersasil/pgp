@@ -1,21 +1,113 @@
 const User = require('../models/User');
 const inputHelper = require('../helpers/inputHelper');
 const authHelper = require('../helpers/authHelper');
+const qrCode = require('../helpers/qrcode')
+
+exports.emailInUse = async(req, res, next) => {
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log(fullUrl);
+    const { email } = req.query;
+    let user;
+
+    if(email === undefined){
+        res.json({isInUse: true, error: "Query is empty"});
+        return;
+    }
+
+    try{
+        user = await User.findUserByEmail({email});
+    }
+    catch(err) {
+        err.status = 500;
+        throw err;
+    }
+    
+    if(user.length === 0){
+        res.json({isInUse: false})
+        return;
+    }
+
+    res.json({isInUse: true})
+
+}
+
+exports.cpfInUse = async(req, res, next) => {
+    let { cpf } = req.query;
+    let user;
+
+    if(cpf === undefined){
+        res.json({isInUse: true, error: "Query is empty"});
+        return;
+    }
+
+    cpf = cpf.replace(/\D/g,'');
+
+    try{
+        user = await User.findUserByCpf({cpf});
+    }
+    catch(err) {
+        err.status = 500;
+        throw err;
+    }
+    
+    if(user.length === 0){
+        res.json({isInUse: false})
+        return;
+    }
+
+    res.json({isInUse: true})
+
+}
+
 
 exports.signIn = async(req, res, next) => {
+    //Verificar se o login é feito pelo cpf, nome de usuário ou senha!
+    let user = req.body;
+
+    if (!isNaN(user.identifier)) { //cpf
+        user.type = "cpf"
+    } else if (user.identifier.includes('@')) { // email
+        user.type = "email"
+    } else { // nickname
+        user.type = "nickname"
+    }
+
+    user = await User.login(user);
+
+    console.log(user);
+
+    if (!user.isloggedIn) {
+        // console.log("oi");
+        res.json(user);
+        return;
+    }
+
+    //get standart response from . Json webtoken, etc...
+
+    const tokenData = {
+        userId: user.userId,
+        nickname: user.nicknameUser
+    }
+
+    const token = authHelper.generateToken(tokenData);
+
+    const data = {
+        idUser: user.idUser,
+        token: token
+    }
+
+    res.json({ status: 1, data });
 
 }
 
 exports.signUp = async(req, res, next) => {
     console.log("OLa");
-    const { email, name, cpf, birthday, nickname, password } = req.body;
+    const { email, cpf, password } = req.body;
+
     const user = {
-        name,
         password,
         cpf,
-        email,
-        birthday,
-        nickname
+        email
     }
 
     const isValidInput = inputHelper.verifyInputs(user);
@@ -25,7 +117,8 @@ exports.signUp = async(req, res, next) => {
         return;
     }
 
-    user.birthday = inputHelper.formatDateToEn(user.birthday);
+    //Cpf é passado como 000.000.00.47
+    user.cpf = user.cpf.replace(/\D/g,'');
 
     try {
         const newUserCreated = await User.createUser(user);
@@ -46,22 +139,21 @@ exports.signUp = async(req, res, next) => {
 
         const data = {
             nickname: user.nickname,
-            name: user.name.split()[0],
             idUser: user.idUser,
             token: token
         }
 
+        qrCode.createImage(user.idUser);
+        
         res.json({ status: 1, data });
 
     } catch (err) {
         if (err.code === 'ER_DUP_ENTRY') {
-            //Logica para encontrar o campo do erro que esta duplicado
             // TODO: mover para outro arquivo
 
             const errorAsString = err.toString();
             const errorSubstring = errorAsString.substring(errorAsString.indexOf('key'));
             const duplicatedField = errorSubstring.split('\'')[1];
-
 
             const error = new Error("User already signedUp");
             error.status = 400;
@@ -79,7 +171,7 @@ exports.signUp = async(req, res, next) => {
 
             return;
         }
+
         res.json({ status: "-1", error: "Backend Error" })
-        console.log(err);
     }
 };

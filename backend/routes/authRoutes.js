@@ -12,6 +12,10 @@ const router = express.Router();
 router.post('/sign-up', authController.signUp);
 router.post('/sign-in', authController.signIn);
 
+//get routes
+router.get('/email-is-avaliable', authController.emailInUse);
+router.get('/cpf-is-avaliable', authController.cpfInUse);
+
 
 
 module.exports = router;

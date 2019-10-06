@@ -1,33 +1,29 @@
 <template>
   <div class="container">
-    <!-- Para teste apenas -->
-    <!-- <p v-if="errors.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="(error, i) in errors" v-bind:key="i" >{{ error }}</li>
-      </ul>
-    </p>-->
-
     <div class="row">
       <div class="col-md-12">
         <div class="register d-flex justify-content-center">
           <div class="body-form">
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Entrar</p>
+
               <!--Email-->
-              <div class="form-group">
-                <label class="text" for="input-email label-required">Email ou Nome de usuário</label>
-                <input v-model="email" type="text" class="form-control-lg" />
+              <div class="form-group form-padding">
+                <label v-if="errors.identifier.length === 0" class="text" for="input-email label-required">Email ou Nome de usuário</label>
+                <label v-else class="p-login-error" for="input-email label-required">{{messageIdentifier}}</label>
+                <input :class="errors.identifier" class="form-control-lg" v-model="identifier" type="text"  />
               </div>
 
               <!-- Senha -->
-              <div class="form-group">
-                <label for="input-senha label-required">Senha</label>
-                <input v-model="confirmPassword" type="password" class="form-control-lg" />
+              <div class="form-group form-padding">
+                <label v-if="errors.password.length === 0" for="input-senha label-required">Senha</label>
+                <label v-else class="p-login-error" for="input-email label-required">{{messagePassword}}</label>                
+                <input :class="errors.password" v-model="password" type="password" class="form-control-lg" />
+
               </div>
 
               <!--Botão Entrar-->
-              <div class="form-group">
+              <div class="form-group form-padding pat-3">
                 <button
                   type="submit"
                   name="btn-entrar"
@@ -48,37 +44,99 @@
 </template>
 
 <script>
+
+import axios from "../axios/authAxios";
+
 export default {
   data() {
     return {
-      errors: [],
-      cpf: null,
-      email: null,
-      password: null,
-      confirmPassaword: null
+      errors: {identifier: "", password: "", message: {identifier: "", password: ""}},
+      identifier: "",
+      password: "",
     };
   },
+  computed: {
+    messageIdentifier (){
+      return this.errors.message.identifier;
+    },
+    messagePassword(){
+      return this.errors.message.password;
+    }
+  },
   methods: {
-    checkForm: function(e) {
-      // console.log(this.email);
-      // console.log(this.name);
+    checkForm: async function(e) {
       e.preventDefault();
 
-      this.errors = [];
+      //Checar os inputs antes de mandar para o backend
+      let isEmpty = this.verifyEmpty("identifier");
+      isEmpty += this.verifyEmpty("password");
 
-      if (!this.email) {
-        this.errors.push("email required.");
+      if(isEmpty) return;
+
+      const authData = {
+        identifier: this.identifier,
+        password: this.password
+      };
+
+      let res;
+
+      try{
+        res = await axios.post("sign-in", authData);
       }
+      catch(err){
+        // console.log(err);
+      };
 
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const userData = res.data;
 
-      if (!re.test(this.email)) {
-        this.errors.push("Valid email required.");
-      }
+      if(!this.checkErrorsInResponse(userData)) return;
 
-      if (!this.errors.length) {
+      this.$store.dispatch('login', userData);
+
+
+    },
+
+    verifyEmpty(name) {
+      if (this[name] === "") {
+        this.errors[name] = "login-error-input";
+        
+        let fieldName;
+
+        if(name === "identifier") fieldName = "Usuário";
+        else if(name === "password") fieldName = "Senha"
+
+        this.errors.message[name] = `${fieldName} - Campo em branco!`;
         return true;
+      } else if (this[name] !== "") {
+        this.errors[name] = "";
       }
+
+      return false;
+    },
+
+    checkErrorsInResponse(userData){
+      if(userData.loggedIn === false){
+        if(userData.error == 1 && this.errors.identifier.length === 0){ //email errado
+          this.errors.identifier = "login-error-input";
+          this.errors.message.identifier = "Usuário não encontrado no sistema";
+
+          //caso haja algum outro erro, o retirar.
+          this.errors.password = "";
+
+          //limpar a senha
+          this.password = "";
+        }
+
+        else if(userData.error == 2 && this.errors.password.length === 0){ //senha errada
+          this.errors.password = "login-error-input";
+          this.errors.message.password = "Senha incorreta";
+          this.errors.identifier = "";
+        }
+        
+        return false;
+      }
+
+      return true;
     }
   },
   mounted() {
@@ -92,6 +150,15 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Mansalva&display=swap");
+
+.p-login-error {
+  color: #882828;
+}
+
+.login-error-input{
+  border-color: #882828 !important;
+  color: #882828 !important;
+}
 
 .register {
   width: 100%;
@@ -177,9 +244,18 @@ input[type="text"]:focus {
 
   .body-form {
     font-family: "Be Vietnam", sans-serif;
-    padding: 18px;
+    /* padding: 18px; */
     /* border-radius: 1rem; */
     width: 500px;
+  }
+
+  .form-padding {
+    padding-bottom: 20px;
+    margin: 0px;
+  }
+
+  .pat-3 {
+    padding-top: 20px;
   }
 }
 
@@ -187,7 +263,9 @@ input[type="text"]:focus {
 @media only screen and (min-width: 400px) {
   .body-img {
     background-color: #343a40;
-    background-image: url("https://i.imgur.com/M3ioWqh.jpg");
+    /* background-image: url("https://i.imgur.com/M3ioWqh.jpg") !important; */
+    background-image: url('~@/assets/img/login/background.jpg');
+    /* background-image: url("/assets/img/background.jpg"); */
   }
 
   .body-form {
@@ -199,6 +277,10 @@ input[type="text"]:focus {
     /* border-radius: 1rem; */
     width: 500px;
     height: 380px;
+  }
+
+  .form-padding {
+    padding: 5px 15px;
   }
 }
 </style>

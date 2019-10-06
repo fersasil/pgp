@@ -1,4 +1,6 @@
 import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
+import PresentationLayout from "@/layout/dashboard/PresentationLayout.vue";
+
 // GeneralViews
 import NotFound from "@/pages/NotFoundPage.vue";
 
@@ -11,29 +13,44 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 
+//Presentation page
+import Welcome from "../pages/Welcome.vue";
 
 //Auth pages
 import SignIn from "../pages/SignIn.vue";
 import SignUp from "../pages/SignUp.vue";
 // import SignUp from "@/pages/SignUp.vue";
 
-
+//Middleware
+import * as guards from "@/middleware/auth";
 
 
 const routes = [{
-        path: "/signup",
-        name: "signup",
-        component: SignUp
-    },
-    {
-        path: "/signin",
-        name: "signin",
-        component: SignIn
-    },
-    {
         path: "/",
+        component: PresentationLayout,
+        beforeEnter: guards.isLogged,
+        children: [{
+                path: "/",
+                name: "welcome",
+                component: Welcome
+            },
+            {
+                path: "/signup",
+                name: "signup",
+                component: SignUp
+            },
+            {
+                path: "/signin",
+                name: "signin",
+                component: SignIn
+            }
+        ]
+    },
+    {
+        path: "/u",
+        beforeEnter: guards.protectLoggedRoutes,
         component: DashboardLayout,
-        redirect: "/dashboard",
+        // redirect: "/dashboard",
         children: [{
                 path: "dashboard",
                 name: "dashboard",

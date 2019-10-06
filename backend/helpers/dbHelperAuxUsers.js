@@ -20,20 +20,26 @@ module.exports = class {
     }
 
     async createUser(user) {
-        return this.query("INSERT INTO User(nameUser, cpfUser, birthdayUser, nicknameUser, emailUser, passwordUser) VALUES (?, ?, ?, ?, ?, ?)", [user.name, user.cpf, user.birthday, user.nickname, user.email, user.password]);
+        return this.query("INSERT INTO User(cpfUser, emailUser, passwordUser) VALUES (?, ?, ?)", [user.cpf, user.email, user.password]);
     }
 
     //This way you don't need a lot of calls for updates, but values not informed yet need to be NULL
     async updateUser(params) {
+        //console.log([...params]);
         const keysDB = Object.keys(params);
-        let call = "UPDATE `User` SET `User`."
-        for(let key of keysDB){
-            call += "`User`." + key + "= ?,"
+
+        const values = [];
+        let call = "UPDATE `User` SET "
+
+        for (let key of keysDB) {
+            call += "`User`.`" + key + "`= ?,";
+            values.push(params[key]);
         }
-        call = call.substring(0, call.length-1);
+
+        call = call.substring(0, call.length - 1);
         call += ";"
-        //params[keysDB]
-        return this.query(call);
+            //params[keysDB]
+        return this.query(call, values);
     }
 
     async findUserByName(userName) {
@@ -42,6 +48,14 @@ module.exports = class {
 
     async findUserByNickname(nicknameUser) {
         return this.query("SELECT * FROM `User` WHERE `User`.`nicknameUser` = ?", [nicknameUser]);
+    }
+
+    async findUserByEmail(params) {
+        return this.query("SELECT * FROM `User` WHERE `User`.`emailUser` = ?", [params.email]);
+    }
+
+    async findUserByCpf(params) {
+        return this.query("SELECT * FROM `User` WHERE `User`.`cpfUser` = ?", [params.cpf]);
     }
 
     // Maybe search users by subevent
@@ -58,5 +72,19 @@ module.exports = class {
         const commonInfo = this;
         return this.query("SELECT * FROM `User` WHERE `User`.`idUser` = '" + userID + "';");
     }
+
+    async loginByNickname(params) {
+        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`nicknameUser` = ?", [params.identifier]);
+    }
+
+    async loginByEmail(params) {
+        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`emailUser` = ?", [params.identifier]);
+    }
+
+    async loginByCPF(params) {
+        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`cpfUser` = ?", [params.identifier]);
+    }
+
+
 
 };
