@@ -1,4 +1,6 @@
 const pool = require('../helpers/dbConnect');
+const dbHelper = require('../helpers/dbHelperAuxUsers');
+const dbFunc = new dbHelper('User');
 
 module.exports = class {
     async query(query, args) {
@@ -84,7 +86,4 @@ module.exports = class {
     async loginByCPF(params) {
         return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`cpfUser` = ?", [params.identifier]);
     }
-
-
-
 };
