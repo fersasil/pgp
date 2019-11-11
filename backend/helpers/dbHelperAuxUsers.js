@@ -1,6 +1,5 @@
 const pool = require('../helpers/dbConnect');
 const dbHelper = require('../helpers/dbHelperAuxUsers');
-const dbFunc = new dbHelper('User');
 
 module.exports = class {
     async query(query, args) {
