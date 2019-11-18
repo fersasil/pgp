@@ -21,7 +21,7 @@ exports.emailInUse = async(req, res, next) => {
         err.status = 500;
         throw err;
     }
-    
+
     if(user.length === 0){
         res.json({isInUse: false})
         return;
