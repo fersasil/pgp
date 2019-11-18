@@ -103,18 +103,7 @@ exports.signIn = async(req, res, next) => {
 exports.signUp = async(req, res, next) => {
     console.log("OLa");
     const { email, cpf, password } = req.body;
-    user.cpf = user.cpf.replace(/\D/g,'');
 
-    if (!inputHelper.verifyCpf(cpf)){
-        res.json({ status: "-1", error: 'Invalid inputs' });
-    }
-    if (!inputHelper.validEmail(email)){
-        res.json({ status: "-1", error: 'Invalid inputs' });
-    }
-    if (!inputHelper.validPassword(password)){
-        res.json({ status: "-1", error: 'Invalid inputs' });
-    }
-/*
     const user = {
         password,
         cpf,
@@ -130,7 +119,7 @@ exports.signUp = async(req, res, next) => {
 
     //Cpf é passado como 000.000.00.47
     user.cpf = user.cpf.replace(/\D/g,'');
-*/
+
     try {
         const newUserCreated = await User.createUser(user);
 
