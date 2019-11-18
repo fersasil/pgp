@@ -36,10 +36,12 @@ export default new Vuex.Store({
     },
     mutations: {
         authUser(state, payload) {
-            state.token = payload.token;
-            state.idUser = payload.idUser;
-            state.nickname = payload.nickname;
-            state.name = name;
+            state.user = {
+                idUser: payload.data.idUser,
+                nickname: payload.data.nickname,
+                token: payload.data.token,
+                name: payload.data.name
+            }
         },
         wipeUserInfo(state) {
             state.idToken = null;
@@ -49,6 +51,29 @@ export default new Vuex.Store({
         },
     },
     actions: {
+        isLoggedIn({ commit }) {
+            const encodedData = localStorage.getItem("data");
+
+            if (!encodedData) {
+                return
+            }
+
+            const decodedData = atob(encodedData);
+            const data = JSON.parse(decodedData);
+            data.expiresIn = new Date(data.expiresIn);
+
+            const now = new Date();
+
+            // console.log(JSON.parse(data))
+            if (now >= data.expiresIn) {
+                //wipe localstorage
+                return;
+            }
+
+            commit('authUser', data);
+            router.push({ name: 'Dashboard' });
+        },
+        
         login({ commit, dispatch }, userData) {
             commit('authUser', userData);
 
@@ -75,6 +100,25 @@ export default new Vuex.Store({
         }
     },
     getters: {
+        userId(state){
+            return state.user.userId;
+        },
+
+        userToken(state){
+            return state.user.token;
+        },
+
+        userNickname(state){
+            return state.user.nickname;
+        },
+
+        userName(state){
+            return state.user.name;
+        },
+
+        user(state){
+            return state.user;
+        },
 
     }
 });

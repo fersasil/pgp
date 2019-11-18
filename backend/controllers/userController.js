@@ -11,10 +11,11 @@ exports.getQrCode = async(req, res, next) => {
     
     //Verificar se é número
 
-    const imageName = qrCode.getImageNameHash(userId);
     // const imageName = '2.png';
 
-    const pathToImage = path.join("../static/usersQrCode/", imageName);
+    console.log(userId)
+
+    const pathToImage = path.join(`../static/usersQrCode/${userId}.png`);
     
     res.status(200).send(`<img src="${pathToImage}">`);
 

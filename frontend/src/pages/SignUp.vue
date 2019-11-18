@@ -414,7 +414,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Mansalva&display=swap");
 
 .p-password-waring {
