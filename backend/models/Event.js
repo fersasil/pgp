@@ -39,8 +39,8 @@ module.exports = class {
     }
 
     // Redo
-    static async updateEventById(idEvent, params) { // REDO
-        return dbFunc.updateById(idEvent, params);
+    static async updateEventById(params) { // REDO
+        return dbFunc.updateEventByID(params);
     }
 
     static async findEventById(idEvent) { // DONE

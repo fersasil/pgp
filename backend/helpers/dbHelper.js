@@ -63,10 +63,21 @@ module.exports = class {
 
     //Redo
     async updateEventByID(event) {
+        //console.log([...params]);
+        const keysDB = Object.keys(params);
 
-        //Refazer
-        //return this.query("UPDATE `Event` SET `titleEvent`="+event.titleEvent+",`subtitleEvent`="+event.subtitleEvent+",`descriptionEvent`="+event.descriptionEvent+",`vagasEvent`="+event.vagasEvent+",`startEvent`="+event.startEvent+",`endEvent`="+event.endEvent+",`priceEvent`="+event.priceEvent+",`Address_idAddress`="+event.Address_idAddress+" WHERE `idEvent` = "+ event.idEvent);
-        //return this.query("UPDATE `Event` SET `titleEvent`= ?, `subtitleEvent`=?,`descriptionEvent`=?,`vagasEvent`=?,`startEvent`=?,`endEvent`=?,`priceEvent`=?,`Address_idAddress`=? WHERE `idEvent` = ?", [event.titleEvent, event.subtitleEvent, event.descriptionEvent, event.vagasEvent, event.startEvent, event.endEvent, event.priceEvent, event.Address_idAddress, event.idEvent]);
+        const values = [];
+        let call = "UPDATE `Event` SET "
+
+        for (let key of keysDB) {
+            call += "`Event`.`" + key + "`= ?,";
+            values.push(params[key]);
+        }
+
+        call = call.substring(0, call.length - 1);
+        call += ";"
+            //params[keysDB]
+        return this.query(call, values);
     }
 
     // REDO ✔
