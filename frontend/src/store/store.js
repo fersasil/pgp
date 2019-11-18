@@ -40,7 +40,13 @@ export default new Vuex.Store({
             state.idUser = payload.idUser;
             state.nickname = payload.nickname;
             state.name = name;
-        }
+        },
+        wipeUserInfo(state) {
+            state.idToken = null;
+            state.userId = null;
+            state.userName = null;
+            state.userInfo = null;
+        },
     },
     actions: {
         login({ commit, dispatch }, userData) {
@@ -58,6 +64,14 @@ export default new Vuex.Store({
             setTimeout(_ => {
                 dispatch('logout')
             }, expiresIn * 1000);
+        },
+
+        logout({commit}){
+            commit('wipeUserInfo');
+            //wipe storage too
+            localStorage.removeItem("data");
+
+            router.replace({ name: 'welcome' })
         }
     },
     getters: {
