@@ -16,8 +16,7 @@
                         <img width="140px" src="@/assets/img/tim_80x80.png" alt="Minha Figura" />
                       </div>
                     </div>
-                  </div>      if(this.showSettings == "one") return "active"
-
+                  </div>
                   <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                     <div class="text-center text-sm-left mb-2 mb-sm-0">
                       <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.name}}</h4>
@@ -260,9 +259,10 @@ export default {
 
     //Mask cpf
     const cpf = userStore.cpfUser;
-    console.log(cpf);
-
     this.user.cpfUser = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
+
+    if(userStore.name == null) this.user.name = "Preencha seu nome";
+    console.log
 
     this.urlQRcode = `http://localhost:3000/static/usersQrCode/${userStore.idUser}.png?token=${userStore.token}`;
   }
