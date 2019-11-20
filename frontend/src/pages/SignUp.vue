@@ -7,18 +7,18 @@
             <form @submit="checkForm">
               <p class="text-center paragraph-white">Criar uma conta</p>
               <!--Email-->
-              <div :class="classes.email" class="form-group form-padding">
+              <div :class="classes.email" class="black-input form-group form-padding">
                 <label v-if="!errors.email" for="input-senha label-required">Email</label>
                 <label v-else class="p-login-error">{{errors.email}}</label>
                 <input
                   @blur="emailIsAvaliable"
                   v-model="email"
                   type="text"
-                  class="form-control-lg normal-input"
+                  class="form-control-lg normal-input black-input"
                 />
               </div>
               <!--CPF-->
-              <div :class="classes.cpf" class="form-group form-padding">
+              <div :class="classes.cpf" class="black-input form-group form-padding">
                 <label v-if="!errors.cpf" for="input-senha label-required">CPF</label>
                 <label v-else class="p-login-error">{{errors.cpf}}</label>
 
@@ -27,11 +27,11 @@
                   v-model="cpf"
                   v-mask="'###.###.###-##'"
                   type="text"
-                  class="normal-input form-control-lg"
+                  class="normal-input black-input form-control-lg"
                 />
               </div>
               <!-- Senha -->
-              <div :class="classes.inputP" class="form-group form-padding">
+              <div :class="classes.inputP" class="black-input form-group form-padding">
                 <label v-if="!errors.password" for="p-error input-senha label-required">Senha</label>
                 <label v-else :class="classes.password" for="input-senha label-required">{{errors.password}}</label>
               
@@ -41,11 +41,11 @@
                   v-model="password"
                   type="password"
                   id="password"
-                  class="normal-input form-control-lg"
+                  class="normal-input  form-control-lg"
                 />
               </div>
 
-              <div :class="classes.confirmPassword" class="form-group form-padding">
+              <div :class="classes.confirmPassword" class="black-input form-group form-padding">
                 <label v-if="!errors.confirmPassword" for="input-senha label-required">Confirme sua senha</label>
                 <label v-else class="p-login-error">{{errors.confirmPassword}}</label>
                 <input
@@ -414,7 +414,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 @import url("https://fonts.googleapis.com/css?family=Be+Vietnam|Mansalva&display=swap");
 
 .p-password-waring {
@@ -526,10 +526,10 @@ label {
   text-align: center;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea {
+.black-input input[type="text"],
+.black-input input[type="email"],
+.black-input input[type="password"],
+.black-input textarea {
   background-color: #d1d1d1;
   font-size: 16px;
   -webkit-box-sizing: border-box;

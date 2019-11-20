@@ -19,9 +19,9 @@
                   </div>
                   <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                     <div class="text-center text-sm-left mb-2 mb-sm-0">
-                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">User Testholder</h4>
-                      <p class="mb-0">@user.test</p>
-                      <p class="mb-0">111.111.111-11</p>
+                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.name}}</h4>
+                      <p class="mb-0">@{{user.nickname}}</p>
+                      <p class="mb-0">{{user.cpfUser}}</p>
                       <div class="mt-2">
                         <button class="btn btn-primary" type="button">
                           <i class="fa fa-fw fa-camera"></i>
@@ -229,16 +229,29 @@ export default {
     return {
       showSettings: false,
       urlQRcode: "https://via.placeholder.com/150",
+      user: {
+        cpfUser: ""
+      }
     };
   },
   methods:{
   },
   async created(){
 
-    const user = this.$store.getters.user;
+    const userStore = this.$store.getters.user;
 
-    this.urlQRcode = `http://localhost:3000/static/usersQrCode/${user.idUser}.png`;
-    
+
+    //Mask cpf
+    const cpf = userStore.cpfUser;
+    console.log(cpf);
+
+    this.user.cpfUser = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
+    // //Se o nome do usuário ainda não for cadastrado... Não mostrar o qrcode até ele cadastrar seu nome
+    // this.user.name = "Nome não cadastrado";
+    // this.user.nickname = "não-cadastrado"
+
+
+    this.urlQRcode = `http://localhost:3000/static/usersQrCode/${userStore.idUser}.png`;
   }
 };
 </script>

@@ -31,7 +31,8 @@ export default new Vuex.Store({
             token: null,
             idUser: null,
             nickname: null,
-            name: null
+            name: null,
+            cpfUser: null
         }
     },
     mutations: {
@@ -40,14 +41,16 @@ export default new Vuex.Store({
                 idUser: payload.data.idUser,
                 nickname: payload.data.nickname,
                 token: payload.data.token,
-                name: payload.data.name
+                name: payload.data.name,
+                cpfUser: payload.data.cpfUser
             }
         },
         wipeUserInfo(state) {
-            state.idToken = null;
-            state.userId = null;
-            state.userName = null;
-            state.userInfo = null;
+            state.user.token = null;
+            state.user.idUser = null;
+            state.user.nickname = null;
+            state.user.name = null;
+            state.user.cpfUser = null;
         },
     },
     actions: {
@@ -64,14 +67,14 @@ export default new Vuex.Store({
 
             const now = new Date();
 
-            // console.log(JSON.parse(data))
             if (now >= data.expiresIn) {
-                //wipe localstorage
+                localStorage.removeItem("data");    
+                router.replace({ name: 'welcome' });
                 return;
             }
 
             commit('authUser', data);
-            router.push({ name: 'Dashboard' });
+            router.replace({ name: 'Dashboard' });
         },
         
         login({ commit, dispatch }, userData) {
@@ -82,7 +85,7 @@ export default new Vuex.Store({
             userData.expiresIn = 3600;
             saveLocalStorage(userData);
 
-            router.push({ name: "dashboard" });
+            router.replace({ name: "dashboard" });
         },
 
         setLogoutTimer({ dispatch }, expiresIn) {
