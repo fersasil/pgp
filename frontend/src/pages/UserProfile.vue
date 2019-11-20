@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div>
     <div class="col">
       <div class="row">
-        <div class="col mb-3">
+        <div style="padding:0px" class="col mb-3">
           <div class="card">
             <div class="card-body">
               <div class="e-profile">
@@ -16,7 +16,8 @@
                         <img width="140px" src="@/assets/img/tim_80x80.png" alt="Minha Figura" />
                       </div>
                     </div>
-                  </div>
+                  </div>      if(this.showSettings == "one") return "active"
+
                   <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                     <div class="text-center text-sm-left mb-2 mb-sm-0">
                       <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.name}}</h4>
@@ -32,14 +33,17 @@
                   </div>
                 </div>
                 <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a href="#" @click="showSettings = false" class="active nav-link">QRcode</a>
+                  <li class="nav-item custom-margin">
+                    <a href="#" @click="showSettings = 'one'" :class="activeOne" class="nav-link">QRcode</a>
                   </li>
-                  <li class="nav-item">
-                    <a href="#" @click="showSettings = true" class="active nav-link">Settings</a>
+                  <li class="nav-item custom-margin">
+                    <a href="#" @click="showSettings = 'two' " :class="activeTwo" class="nav-link">QRcode</a>
+                  </li>
+                  <li class="nav-item custom-margin">
+                    <a href="#" @click="showSettings = 'three' " :class="activeThree" class="nav-link">Dados</a>
                   </li>
                 </ul>
-                <div v-if="showSettings" class="tab-content pt-3">
+                <div v-if="showSettings == 'three'" class="tab-content pt-3">
                   <div class="tab-pane active">
                     <form class="form" novalidate>
                       <div class="row">
@@ -209,7 +213,7 @@
                     </form>
                   </div>
                 </div>
-                <div v-else>
+                <div v-else-if="showSettings == 'one'">
                   <img :src="urlQRcode" alt />
                 </div>
               </div>
@@ -227,7 +231,7 @@ import axios from "../axios/authAxios";
 export default {
   data(){
     return {
-      showSettings: false,
+      showSettings: "one",
       urlQRcode: "https://via.placeholder.com/150",
       user: {
         cpfUser: ""
@@ -236,24 +240,37 @@ export default {
   },
   methods:{
   },
+  computed:{
+    activeOne(){
+      if(this.showSettings == "one") return "active"
+      else return ""
+    },
+    activeTwo(){
+      if(this.showSettings == "two") return "active"
+      else return ""
+    },
+    activeThree(){
+      if(this.showSettings == "three") return "active"
+      else return ""
+    }
+  },
   async created(){
 
     const userStore = this.$store.getters.user;
-
 
     //Mask cpf
     const cpf = userStore.cpfUser;
     console.log(cpf);
 
     this.user.cpfUser = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
-    // //Se o nome do usuário ainda não for cadastrado... Não mostrar o qrcode até ele cadastrar seu nome
-    // this.user.name = "Nome não cadastrado";
-    // this.user.nickname = "não-cadastrado"
 
-
-    this.urlQRcode = `http://localhost:3000/static/usersQrCode/${userStore.idUser}.png`;
+    this.urlQRcode = `http://localhost:3000/static/usersQrCode/${userStore.idUser}.png?token=${userStore.token}`;
   }
 };
 </script>
-<style>
+<style scoped>
+  .custom-margin{
+    margin-right: 5px;
+    /* margin-bottom: 5px;  */
+  }
 </style>
