@@ -31,24 +31,52 @@ export default new Vuex.Store({
             token: null,
             idUser: null,
             nickname: null,
-            name: null
+            name: null,
+            cpfUser: null
         }
     },
     mutations: {
         authUser(state, payload) {
-            state.token = payload.token;
-            state.idUser = payload.idUser;
-            state.nickname = payload.nickname;
-            state.name = name;
+            state.user = {
+                idUser: payload.data.idUser,
+                nickname: payload.data.nickname,
+                token: payload.data.token,
+                name: payload.data.name,
+                cpfUser: payload.data.cpfUser
+            }
         },
         wipeUserInfo(state) {
-            state.idToken = null;
-            state.userId = null;
-            state.userName = null;
-            state.userInfo = null;
+            state.user.token = null;
+            state.user.idUser = null;
+            state.user.nickname = null;
+            state.user.name = null;
+            state.user.cpfUser = null;
         },
     },
     actions: {
+        isLoggedIn({ commit }) {
+            const encodedData = localStorage.getItem("data");
+
+            if (!encodedData) {
+                return
+            }
+
+            const decodedData = atob(encodedData);
+            const data = JSON.parse(decodedData);
+            data.expiresIn = new Date(data.expiresIn);
+
+            const now = new Date();
+
+            if (now >= data.expiresIn) {
+                localStorage.removeItem("data");    
+                router.replace({ name: 'welcome' });
+                return;
+            }
+
+            commit('authUser', data);
+            router.replace({ name: 'Dashboard' });
+        },
+        
         login({ commit, dispatch }, userData) {
             commit('authUser', userData);
 
@@ -57,7 +85,7 @@ export default new Vuex.Store({
             userData.expiresIn = 3600;
             saveLocalStorage(userData);
 
-            router.push({ name: "dashboard" });
+            router.replace({ name: "dashboard" });
         },
 
         setLogoutTimer({ dispatch }, expiresIn) {
@@ -75,6 +103,25 @@ export default new Vuex.Store({
         }
     },
     getters: {
+        userId(state){
+            return state.user.userId;
+        },
+
+        userToken(state){
+            return state.user.token;
+        },
+
+        userNickname(state){
+            return state.user.nickname;
+        },
+
+        userName(state){
+            return state.user.name;
+        },
+
+        user(state){
+            return state.user;
+        },
 
     }
 });

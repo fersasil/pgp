@@ -64,25 +64,20 @@ module.exports = class {
         return this.query("SELECT `User`.`nameUser`, `User`.`imageUser` FROM `User` INNER JOIN `User_Event` ON `User`.`idUser` = `User_Event`.`userIdUser` INNER JOIN `Event` ON `User_Event`.`eventIdEvent`=`Event`.`idEvent` WHERE `Event`.`idEvent`=" + eventID + ";")
     }
 
-    /*    async findUserByCPF(userCPF) {
-            const commonInfo = this;
-            return this.query("SELECT * FROM `User` WHERE `User`.`nameUser` = '" + userCPF + "'");
-        }*/
-
     async findUserById(userID) {
         const commonInfo = this;
         return this.query("SELECT * FROM `User` WHERE `User`.`idUser` = '" + userID + "';");
     }
 
     async loginByNickname(params) {
-        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`nicknameUser` = ?", [params.identifier]);
+        return this.query("SELECT nameUser, cpfUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`nicknameUser` = ?", [params.identifier]);
     }
 
     async loginByEmail(params) {
-        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`emailUser` = ?", [params.identifier]);
+        return this.query("SELECT nameUser, cpfUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`emailUser` = ?", [params.identifier]);
     }
 
     async loginByCPF(params) {
-        return this.query("SELECT nameUser, idUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`cpfUser` = ?", [params.identifier]);
+        return this.query("SELECT nameUser, idUser, cpfUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`cpfUser` = ?", [params.identifier]);
     }
 };

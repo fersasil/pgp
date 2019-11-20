@@ -50,26 +50,16 @@ const decrypt = value => {
 // Returns: A string decrypted
 // Description: This function return a value encrypted
 const createImage = idUser => {
-	const imageName = encrypt(toStringInBase(idUser, 7)) + ".png";
+	console.log(idUser);
+	idUser = idUser + ".png";
 
-	//const ciphertext = CryptoJS.AES.encrypt(idUser, 'SECRETPGP2019');
-
-
-	//const imageName = ciphertext.toString() + ".png";
-
-
-	//console.log(ciphertext.toString());
-
-	const savePath = path.join(baseDir, "/public/usersQrCode/", imageName); // Image name is idUser in base 7 encrypted in MD5;
+	const savePath = path.join(baseDir, "/public/usersQrCode/", idUser); // Image name is idUser in base 7 encrypted in MD5;
 
 	const hashedContent = encrypt(toStringInBase(idUser, 5));
-
-	console.log("Conteudo: ", hashedContent);
-	console.log("nome Img:", imageName);
 	
 	qrCode.toFile(savePath, hashedContent, {
 			color: {
-			light: '#0000', // Transparent background
+			light: '#0000',
 			scale: 100
 		}
 	}, function (err) {

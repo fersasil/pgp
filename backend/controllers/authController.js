@@ -5,7 +5,6 @@ const qrCode = require('../helpers/qrcode')
 
 exports.emailInUse = async(req, res, next) => {
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log(fullUrl);
     const { email } = req.query;
     let user;
 
@@ -74,8 +73,6 @@ exports.signIn = async(req, res, next) => {
 
     user = await User.login(user);
 
-    console.log(user);
-
     if (!user.isloggedIn) {
         // console.log("oi");
         res.json(user);
@@ -93,7 +90,8 @@ exports.signIn = async(req, res, next) => {
 
     const data = {
         idUser: user.idUser,
-        token: token
+        token: token,
+        cpfUser: user.cpfUser
     }
 
     res.json({ status: 1, data });
@@ -101,7 +99,6 @@ exports.signIn = async(req, res, next) => {
 }
 
 exports.signUp = async(req, res, next) => {
-    console.log("OLa");
     const { email, cpf, password } = req.body;
 
     const user = {
@@ -144,7 +141,8 @@ exports.signUp = async(req, res, next) => {
         }
 
         qrCode.createImage(user.idUser);
-        
+            
+        console.log("IIIII")
         res.json({ status: 1, data });
 
     } catch (err) {
