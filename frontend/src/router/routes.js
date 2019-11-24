@@ -22,8 +22,10 @@ import SignUp from "../pages/SignUp.vue";
 // import SignUp from "@/pages/SignUp.vue";
 
 //user pages
-
 import UserProfile from "@/pages/UserProfile.vue";
+
+//qrcode
+import Qrcode from "@/pages/Qrcode.vue";
 
 
 //Middleware
@@ -66,6 +68,11 @@ const routes = [{
                 path: "perfil",
                 name: "user",
                 component: UserProfile
+            },
+            {
+                path: "qrcode",
+                name: "qrcode",
+                component: Qrcode
             },
             {
                 path: "notifications",

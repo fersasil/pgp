@@ -40,8 +40,8 @@ module.exports = class {
     // Receive: params(object)
     // Returns: 
     // Description: 
-    static async updateUser(params) { // Done
-        return dbFunc.updateUser(params);
+    static async updateUser(idUser, params) { // Done
+        return dbFunc.updateUser(idUser, params);
     }
 
     // ---- Function: findUserByName ---- //

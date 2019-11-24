@@ -60,8 +60,10 @@ const createImage = idUser => {
 	qrCode.toFile(savePath, hashedContent, {
 			color: {
 			light: '#0000',
-			scale: 100
-		}
+		},
+
+		width: 1000,
+  		errorCorrectionLevel: 'H'
 	}, function (err) {
 		if(err) throw err;
 	});

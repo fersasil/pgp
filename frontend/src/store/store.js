@@ -13,6 +13,8 @@ const expireTimeDate = expireInSeconds => {
 
 const saveLocalStorage = (data => {
     //get expireTime from user info
+    if(!data.expiresIn) data.expiresIn = 3600;
+    
     data.expiresIn = expireTimeDate(data.expiresIn);
 
     const dataEncoded = btoa(JSON.stringify(data));
@@ -30,8 +32,8 @@ export default new Vuex.Store({
         user: {
             token: null,
             idUser: null,
-            nickname: null,
-            name: null,
+            nicknameUser: null,
+            nameUser: null,
             cpfUser: null
         }
     },
@@ -39,17 +41,25 @@ export default new Vuex.Store({
         authUser(state, payload) {
             state.user = {
                 idUser: payload.data.idUser,
-                nickname: payload.data.nickname,
+                nicknameUser: payload.data.nicknameUser,
                 token: payload.data.token,
-                name: payload.data.name,
+                nameUser: payload.data.nameUser,
                 cpfUser: payload.data.cpfUser
             }
+        },
+        updateUser(state, payload){
+            if(payload.nicknameUser)
+                state.nameUser = payload.nameUser; 
+            else if(payload.userNickname) 
+                state.nicknameUser = payload.nicknameUser;
+            
+            saveLocalStorage(state);
         },
         wipeUserInfo(state) {
             state.user.token = null;
             state.user.idUser = null;
-            state.user.nickname = null;
-            state.user.name = null;
+            state.user.nicknameUser = null;
+            state.user.nameUser = null;
             state.user.cpfUser = null;
         },
     },
@@ -100,11 +110,23 @@ export default new Vuex.Store({
             localStorage.removeItem("data");
 
             router.replace({ name: 'welcome' })
+        },
+
+        updateUser({commit}, payload){
+            const data = {};
+
+            if(payload.nicknameUser)
+                data.nameUser = payload.nameUser; 
+            else if(payload.userNickname) 
+                data.nicknameUser = payload.nicknameUser; 
+            if(Object.keys(data).length > 0)
+                commit("updateUser", data);
         }
+
     },
     getters: {
-        userId(state){
-            return state.user.userId;
+        idUser(state){
+            return state.user.idUser;
         },
 
         userToken(state){
@@ -112,10 +134,10 @@ export default new Vuex.Store({
         },
 
         userNickname(state){
-            return state.user.nickname;
+            return state.user.nicknameUser;
         },
 
-        userName(state){
+        nameUser(state){
             return state.user.name;
         },
 

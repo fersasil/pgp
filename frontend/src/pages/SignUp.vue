@@ -314,8 +314,6 @@ export default {
 
       //TODO: aceitar senhas fracas!
 
-      console.log(this.errors.password);
-
       const data = {
         cpf: this.cpf,
         email: this.email,
@@ -338,6 +336,9 @@ export default {
         //TODO: visual
         return;
       }
+
+      userData.cpfUser = data.cpf;
+      userData.emailUser = data.email;
 
       this.$store.dispatch("login", userData);
     },

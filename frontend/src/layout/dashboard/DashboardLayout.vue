@@ -4,9 +4,9 @@
       <template slot="links">
         <sidebar-link to="/u/dashboard" name="Dashboard" icon="ti-panel"/>
         <sidebar-link to="/u/perfil" name="Perfil" icon="ti-user"/>
-        <sidebar-link to="/table-list" name="Gerenciar eventos" icon="ti-view-list-alt"/>
-        <sidebar-link to="/typography" name="Typography" icon="ti-text"/>
-        <sidebar-link to="/icons" name="EVENTOS" icon="ti-direction-alt"/>
+        <sidebar-link to="/u/gerenciar-eventos" name="Gerenciar eventos" icon="ti-view-list-alt"/>
+        <sidebar-link to="/u/qrcode" name="qrcode" icon="ti-camera"/>
+        <sidebar-link to="/u/icons" name="EVENTOS" icon="ti-direction-alt"/>
         <sidebar-link to="/maps" name="Map" icon="ti-map"/>
         <sidebar-link to="/notifications" name="Notifications" icon="ti-bell"/>
       </template>

@@ -91,7 +91,9 @@ exports.signIn = async(req, res, next) => {
     const data = {
         idUser: user.idUser,
         token: token,
-        cpfUser: user.cpfUser
+        cpfUser: user.cpfUser,
+        nameUser: user.nameUser,
+        nicknameUser: user.nicknameUser
     }
 
     res.json({ status: 1, data });
@@ -137,12 +139,13 @@ exports.signUp = async(req, res, next) => {
         const data = {
             nickname: user.nickname,
             idUser: user.idUser,
+            cpfUser: user.cpf,
             token: token
         }
 
         qrCode.createImage(user.idUser);
             
-        console.log("IIIII")
+        console.log(data);
         res.json({ status: 1, data });
 
     } catch (err) {

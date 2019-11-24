@@ -25,7 +25,7 @@ module.exports = class {
     }
 
     //This way you don't need a lot of calls for updates, but values not informed yet need to be NULL
-    async updateUser(params) {
+    async updateUser(idUser, params) {
         //console.log([...params]);
         const keysDB = Object.keys(params);
 
@@ -38,8 +38,11 @@ module.exports = class {
         }
 
         call = call.substring(0, call.length - 1);
+        call += "WHERE `User`.`idUser` = ?";
         call += ";"
-            //params[keysDB]
+
+        values.push(idUser);
+
         return this.query(call, values);
     }
 
@@ -64,9 +67,8 @@ module.exports = class {
         return this.query("SELECT `User`.`nameUser`, `User`.`imageUser` FROM `User` INNER JOIN `User_Event` ON `User`.`idUser` = `User_Event`.`userIdUser` INNER JOIN `Event` ON `User_Event`.`eventIdEvent`=`Event`.`idEvent` WHERE `Event`.`idEvent`=" + eventID + ";")
     }
 
-    async findUserById(userID) {
-        const commonInfo = this;
-        return this.query("SELECT * FROM `User` WHERE `User`.`idUser` = '" + userID + "';");
+    async findUserById(idUser) {
+        return this.query("SELECT * FROM `User` WHERE `User`.`idUser` = ?", [idUser]);
     }
 
     async loginByNickname(params) {

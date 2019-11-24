@@ -20,7 +20,10 @@ app.use('/api/', userRoutes);
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 
+//192.168.0.104
+//const server = "192.168.0.105";
+const server = "localhost";
 
-app.listen(3000, _ => {
-    console.log('Server is listening at http://localhost:3000');
+app.listen(3000, server, _ => {
+    console.log(`Server is listening at http://${server}:3000`);
 });

@@ -10,6 +10,10 @@ const router = express.Router();
 
 //get routes
 router.get('/get-qrcode-from-id', userController.getQrCode);
+router.get('/get-user-info', userController.getUserInfo);
+router.get('/avaliable-user-name', userController.isUserNameAvailable);
 
+//put routes
+router.put("/update-user", userController.updateUser);
 
 module.exports = router;
