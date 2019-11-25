@@ -76,19 +76,4 @@ module.exports = class {
         return this.query("SELECT `Event`.* FROM `Event` JOIN `User_Event` ON `User_Event`.`eventIdEvent` = `Event`.`idEvent` JOIN `User` ON . `User`.`idUser` = `User_Event`.`userIdUser` WHERE `User`.`idUser` = ?", userId);
     }
 
-    // ------- Function: registerLog ------- //
-    // Receive: idUser(integer)
-    // Returns: 
-    // Description: 
-    static async registerLogIn(idUser){
-        let date = new Date();
-        date = date.getUTCFullYear() + '-' +
-        ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-        ('00' + date.getUTCDate()).slice(-2) + ' ' +
-        ('00' + date.getUTCHours()).slice(-2) + ':' +
-        ('00' + date.getUTCMinutes()).slice(-2) + ':' +
-        ('00' + date.getUTCSeconds()).slice(-2);
-        return this.query("INSERT INTO `Log`(`datetimeLogin`, `User_idUser`) VALUES (?, ?)", [date, idUser]);
-    }
-
 };

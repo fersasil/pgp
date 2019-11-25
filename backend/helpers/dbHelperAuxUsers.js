@@ -82,4 +82,14 @@ module.exports = class {
     async loginByCPF(params) {
         return this.query("SELECT nameUser, idUser, cpfUser, nicknameUser, passwordUser, imageUser FROM `User` WHERE `User`.`cpfUser` = ?", [params.identifier]);
     }
+
+    // ------- Function: registerLog ------- //
+    // Receive: idUser(integer), date(string)
+    // Returns: 
+    // Description: 
+    async registerLogIn(idUser, date){
+        return this.query("INSERT INTO `Log`(`datetimeLogin`, `User_idUser`) VALUES (?, ?)", [date, idUser]);
+    }
+
+
 };
