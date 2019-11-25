@@ -30,7 +30,6 @@ import Qrcode from "@/pages/Qrcode.vue";
 //Event Pages
 import SelectedEvent from "@/pages/Event/SelectedEvent.vue";
 
-
 //Middleware
 import * as guards from "@/middleware/auth";
 

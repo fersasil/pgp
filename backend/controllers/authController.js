@@ -20,7 +20,7 @@ exports.emailInUse = async(req, res, next) => {
         err.status = 500;
         throw err;
     }
-
+    
     if(user.length === 0){
         res.json({isInUse: false})
         return;
@@ -95,6 +95,9 @@ exports.signIn = async(req, res, next) => {
         nameUser: user.nameUser,
         nicknameUser: user.nicknameUser
     }
+
+    // Call register LogIn function
+    User.registerLogIn(user.idUser);
 
     res.json({ status: 1, data });
 

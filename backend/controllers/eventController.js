@@ -67,5 +67,30 @@ exports.createEvent = async(req, res, next) => {
     }catch(err){
         res.json({ status: "-1", error: "Backend Error" });
     }
+}
 
+exports.editEvent = async(req, res, next) => {
+    const {idEvent, titleEvent, subtitleEvent, descriptionEvent, vagasEvent, startEvent, endEvent, priceEvent, Address_idAddress} = req.body;
+    const event = {
+        idEvent,
+        titleEvent,
+        subtitleEvent,
+        descriptionEvent,
+        vagasEvent,
+        startEvent,
+        endEvent,
+        priceEvent,
+        Address_idAddress
+    }
+
+    try {
+        const newEventCreated = await Event.updateEventById(event);
+        if(!newEventCreated){ // Database error
+            res.json({ status: "-1", error: "Database Error" })
+            return;
+        }
+        res.json({ status: 1, data }); // Event created
+    }catch(err){
+        res.json({ status: "-1", error: "Backend Error" });
+    }
 }

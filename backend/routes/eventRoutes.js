@@ -15,5 +15,7 @@ router.get('/search', eventController.getEventByTitle);
 router.get('/evento', eventController.getEventById);
 // Create a new event
 router.post('/cadastrar-evento', eventController.createEvent);
+// Edit event
+router.post('/editar-evento', eventController.editEvent);
 
 module.exports = router;

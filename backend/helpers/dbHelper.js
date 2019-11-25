@@ -72,7 +72,7 @@ module.exports = class {
     // REDO ✔
     // Essa função não faz o menor sentido! nome estranho
     // Encontrar um evento através do ID do usuário, faz sentido, não? 🤔
-    async findAllEventsByUserId(userId) {
+    async findEventByUserID(userId) {
         return this.query("SELECT `Event`.* FROM `Event` JOIN `User_Event` ON `User_Event`.`eventIdEvent` = `Event`.`idEvent` JOIN `User` ON . `User`.`idUser` = `User_Event`.`userIdUser` WHERE `User`.`idUser` = ?", userId);
     }
 

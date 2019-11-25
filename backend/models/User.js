@@ -93,6 +93,26 @@ module.exports = class {
         return dbFunc.findUserByNickname(nicknameUser);
     }
 
+    // ------- Function: registerLogIn ------- //
+    // Receive: idUser(integer)
+    // Returns: 
+    // Description: 
+    static async registerLogIn(idUser){
+        try{
+            let date = new Date();
+            date = date.getUTCFullYear() + '-' +
+            ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+            ('00' + date.getUTCDate()).slice(-2) + ' ' +
+            ('00' + date.getUTCHours()).slice(-2) + ':' +
+            ('00' + date.getUTCMinutes()).slice(-2) + ':' +
+            ('00' + date.getUTCSeconds()).slice(-2);
+            return dbFunc.registerLogIn(idUser, date);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+
     static async login(params) {
         let user;
 

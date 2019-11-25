@@ -47,8 +47,4 @@ module.exports = class {
         return dbFunc.findEventByID(idEvent);
     }
 
-    static async findAllEventsByUserId(idUser){ // It wasn't in the model until I added.
-        return dbFunc.findAllEventsByUserId(idUser);
-    }
-
 };
