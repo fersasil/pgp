@@ -6,7 +6,9 @@ import store from "./store/store";
 
 import PaperDashboard from "./plugins/paperDashboard";
 import "vue-notifyjs/themes/default.css";
+import VueQrcodeReader from "vue-qrcode-reader";
 
+Vue.use(VueQrcodeReader);
 Vue.use(PaperDashboard);
 
 /* eslint-disable no-new */

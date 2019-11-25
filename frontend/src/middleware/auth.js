@@ -1,59 +1,87 @@
- import store from "@/store/store";
+import store from "@/store/store";
 
- const getDataStorage = _ => {
-     const encodedData = localStorage.getItem('data');
-     if (!encodedData) {
-         return false;
-     }
+const getDataStorage = _ => {
+    const encodedData = localStorage.getItem('data');
+    if (!encodedData) {
+        return false;
+    }
 
-     const decodedData = atob(encodedData);
-     const data = JSON.parse(decodedData);
-     data.expiresIn = new Date(data.expiresIn);
-     return data;
- }
+    const decodedData = atob(encodedData);
+    const data = JSON.parse(decodedData);
+    data.expiresIn = new Date(data.expiresIn);
 
- export const isLogged = (to, from, next) => {
-     if (store.state.token) {
-         next({ name: 'dashboard' });
-         return;
-     }
 
-     const data = getDataStorage();
+    return data;
+}
 
-     if (!data) {
-         next();
-         return;
-     }
+const isLogged2 = (to, from, next) => {
+    if (store.state.user.token) {
+        next();
+        return;
+    }
 
-     const now = new Date();
+    const data = getDataStorage();
 
-     if (now >= data.expiresIn) {
-         next();
-     } else {
-         next({ name: 'dashboard' });
-         return;
-     }
- }
+    if (!data) {
+        next();
+        return;
+    }
 
- export const protectLoggedRoutes = (to, from, next) => {
-     if (store.state.idToken) {
-         next();
-         return;
-     }
+    const now = new Date();
 
-     const data = getDataStorage();
+    if (now >= data.expiresIn) {
+    next();
+} else {
+    //    this.$store.dispatch('login', data);
+        store.state.user = data.data;
+    next();
+    return;
+}
+}
 
-     if (!data) {
-         next({ name: 'signin' });
-         return;
-     }
+export const isLogged = (to, from, next) => {    
+    if (store.state.user.token) {
+        next({name: "dashboard", replace: true});
+        return;
+    }
 
-     const now = new Date();
+    const data = getDataStorage();
 
-     if (now >= data.expiresIn) {
-         next({ name: 'signin' });
-     } else {
-         next();
-     }
+    if (!data) {
+        next();
+        return;
+    }
 
- }
+    const now = new Date();
+
+    if (now >= data.expiresIn) {
+        next();
+    } else {
+        next({ name: 'dashboard', replace: true });
+        store.state.user = data.data;        
+        return;
+    }
+}
+
+export const protectLoggedRoutes = (to, from, next) => {
+    if (store.state.user.idToken) {
+        next();
+        return;
+    }
+
+    const data = getDataStorage();
+
+    if (!data) {
+        next({ name: 'signin' });
+        return;
+    }
+
+    const now = new Date();
+
+    if (now >= data.expiresIn) {
+        next({ name: 'signin' });
+        return;
+    } 
+    
+    isLogged2(to, from, next);
+}

@@ -18,6 +18,7 @@
     "vue": "^2.6.10",
     "vue-clickaway": "^2.1.0",
     "vue-notifyjs": "^0.3.0",
+    "vue-qrcode-reader": "^2.1.1",
     "vue-router": "^3.0.1",
     "vue-the-mask": "^0.11.1",
     "vuex": "^3.1.1"

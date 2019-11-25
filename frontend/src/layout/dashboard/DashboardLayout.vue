@@ -2,11 +2,11 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel"/>
-        <sidebar-link to="/stats" name="User Profile" icon="ti-user"/>
-        <sidebar-link to="/table-list" name="Table List" icon="ti-view-list-alt"/>
-        <sidebar-link to="/typography" name="Typography" icon="ti-text"/>
-        <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2"/>
+        <sidebar-link to="/u/dashboard" name="Dashboard" icon="ti-panel"/>
+        <sidebar-link to="/u/perfil" name="Perfil" icon="ti-user"/>
+        <sidebar-link to="/u/gerenciar-eventos" name="Gerenciar eventos" icon="ti-view-list-alt"/>
+        <sidebar-link to="/u/qrcode" name="qrcode" icon="ti-camera"/>
+        <sidebar-link to="/u/icons" name="EVENTOS" icon="ti-direction-alt"/>
         <sidebar-link to="/maps" name="Map" icon="ti-map"/>
         <sidebar-link to="/notifications" name="Notifications" icon="ti-bell"/>
       </template>
@@ -27,12 +27,15 @@
           <a class="dropdown-item">Notification 4</a>
           <a class="dropdown-item">Another notification</a>
         </drop-down>
-        <li class="nav-item">
-          <a class="nav-link">
-            <i class="ti-settings"></i>
-            <p>Settings</p>
-          </a>
-        </li>
+        <drop-down class="nav-item"
+                     title="Configurações"
+                     title-classes="nav-link"
+                     icon="ti-settings">
+
+            <a class="dropdown-item" href="#">Perfil</a>
+            <a class="dropdown-item" href="#">Meus eventos</a>
+            <a class="dropdown-item" @click="logout" href="#">Sair</a>
+          </drop-down>
         <li class="divider"></li>
       </mobile-menu>
     </side-bar>
@@ -66,6 +69,10 @@ export default {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
+    },
+    logout(){
+      //alert("Você quer sair!")
+      this.$store.dispatch('logout');
     }
   }
 };
