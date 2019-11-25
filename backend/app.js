@@ -5,6 +5,8 @@ const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const eventRoutes = require('./routes/eventRoutes');
+
 
 const app = express();
 
@@ -15,6 +17,7 @@ app.use(cors());
 //Rotas
 app.use('/api/', authRoutes);
 app.use('/api/', userRoutes);
+app.use('/api/', eventRoutes);
 
 //Qr codes
 app.use('/static', express.static(path.join(__dirname, 'public')))

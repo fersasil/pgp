@@ -22,7 +22,7 @@ module.exports = class {
             } catch (err) {
                 conn.end();
                 if (reject) reject(err);
-                errorHandler(err);
+                console.log(err);
             }
         });
     }
@@ -36,7 +36,7 @@ module.exports = class {
     // REDO
     async findEventByID(eventId) {
         // mesma erro que as funções de baixo ✔
-        return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`idEvent` = ?", eventId);
+        return this.query("SELECT * FROM `Event` INNER JOIN `Address` ON `Event`.`Address_idAddress` = `Address`.`idAddress` WHERE `Event`.`idEvent` = ?", [eventId]);
     }
 
     // REDO ✔
