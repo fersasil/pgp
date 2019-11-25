@@ -93,6 +93,15 @@ module.exports = class {
         return dbFunc.findUserByNickname(nicknameUser);
     }
 
+    // ------- Function: registerLogIn ------- //
+    // Receive: idUser(integer)
+    // Returns: 
+    // Description: 
+    static async registerLogIn(idUser){
+        return dbFunc.registerLogIn(idUser);
+    }
+
+
     static async login(params) {
         let user;
 

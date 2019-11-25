@@ -96,6 +96,9 @@ exports.signIn = async(req, res, next) => {
         nicknameUser: user.nicknameUser
     }
 
+    // Call register LogIn function
+    User.registerLogIn(user.idUser);
+
     res.json({ status: 1, data });
 
 }
