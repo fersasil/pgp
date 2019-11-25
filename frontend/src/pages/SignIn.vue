@@ -92,8 +92,6 @@ export default {
       if(!this.checkErrorsInResponse(userData)) return;
 
       this.$store.dispatch('login', userData);
-
-
     },
 
     verifyEmpty(name) {

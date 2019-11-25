@@ -39,16 +39,12 @@ module.exports = class {
     }
 
     // Redo
-    static async updateEventById(params) { // REDO
-        return dbFunc.updateEventByID(params);
+    static async updateEventById(idEvent, params) { // REDO
+        return dbFunc.updateById(idEvent, params);
     }
 
     static async findEventById(idEvent) { // DONE
         return dbFunc.findEventByID(idEvent);
-    }
-
-    static async findAllEventsByUserId(idUser){ // It wasn't in the model until I added.
-        return dbFunc.findAllEventsByUserId(idUser);
     }
 
 };

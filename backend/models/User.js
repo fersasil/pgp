@@ -28,7 +28,7 @@ module.exports = class {
     }*/
 
     // ---- Function: createUser ---- //
-    // Receive: params
+    // Receive: params(object)
     // Returns: 
     // Description: 
     static async createUser(params) { // Done
@@ -37,15 +37,15 @@ module.exports = class {
     }
 
     // ---- Function: updateUser ---- //
-    // Receive: params
+    // Receive: params(object)
     // Returns: 
     // Description: 
-    static async updateUser(params) { // Done
-        return dbFunc.updateUser(params);
+    static async updateUser(idUser, params) { // Done
+        return dbFunc.updateUser(idUser, params);
     }
 
     // ---- Function: findUserByName ---- //
-    // Receive: nameUser
+    // Receive: nameUser(string)
     // Returns: 
     // Description: 
     static async findUserByName(nameUser) { // Done
@@ -54,7 +54,7 @@ module.exports = class {
 
     // ------ Need Review !! Warning !!! -----//
     // ---- Function: findUsersByEventID ---- //
-    // Receive: eventID
+    // Receive: eventID(Integer)
     // Returns: 
     // Description: 
     static async findUsersByEventID(eventID) { // Done ?
@@ -62,23 +62,31 @@ module.exports = class {
     }
 
     // ---- Function: findUserById ---- //
-    // Receive: idUser
+    // Receive: idUser(integer)
     // Returns: 
     // Description: 
     static async findUserById(idUser) { // Done
         return dbFunc.findUserById(idUser);
     }
 
+    // ---- Function: findUserByEmail ---- //
+    // Receive: emailUser(string)
+    // Returns: 
+    // Description: 
     static async findUserByEmail(params) { // Done
         return dbFunc.findUserByEmail(params);
     }
 
-    static async findUserByCpf(params) { // Done
-        return dbFunc.findUserByCpf(params);
+    // ---- Function: findUserByCpf ---- //
+    // Receive: cpfUser(string)
+    // Returns: 
+    // Description: 
+    static async findUserByCpf(cpfUser) { // Done
+        return dbFunc.findUserByCpf(cpfUser);
     }
 
     // ---- Function: findUserByNickname ---- //
-    // Receive: nicknameUser
+    // Receive: nicknameUser(string)
     // Returns: 
     // Description: 
     static async findUserByNickname(nicknameUser) {

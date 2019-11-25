@@ -8,11 +8,11 @@ const router = express.Router();
 
 // router.signIn
 
-// Testar isso
+//Testar isso
 router.post('/sign-up', authController.signUp);
 router.post('/sign-in', authController.signIn);
 
-// get routes
+//get routes
 router.get('/email-is-avaliable', authController.emailInUse);
 router.get('/cpf-is-avaliable', authController.cpfInUse);
 
