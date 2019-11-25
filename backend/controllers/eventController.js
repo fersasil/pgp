@@ -34,16 +34,10 @@ exports.getEventByTitle = async(req, res, next) => {
 }
 
 exports.getEventById = async(req, res, next) => {
-    const {idEvent} = req.body;
-    /*try{
-        user = await User.findUserByEmail({email});
-    }
-    catch(err) {
-        err.status = 500;
-        throw err;
-    }*/
+    const {idEvent} = req.query;
+
     try{
-        Event.findEventById(idEvent)
+        const data = await Event.findEventById(idEvent)
         res.json({status: 1, data});
     }catch(err){
         res.json({status: "-1", error: "Backend Error"});

@@ -27,6 +27,8 @@ import UserProfile from "@/pages/UserProfile.vue";
 //qrcode
 import Qrcode from "@/pages/Qrcode.vue";
 
+//Event Pages
+import SelectedEvent from "@/pages/Event/SelectedEvent.vue";
 
 //Middleware
 import * as guards from "@/middleware/auth";
@@ -98,6 +100,11 @@ const routes = [{
                 path: "table-list",
                 name: "table-list",
                 component: TableList
+            },
+            {
+                path: "evento/:idEvent",
+                name: "SelectedEvent",
+                component: SelectedEvent
             }
         ]
     },

@@ -90,6 +90,4 @@ module.exports = class {
     async registerLogIn(idUser, date){
         return this.query("INSERT INTO `Log`(`datetimeLogin`, `User_idUser`) VALUES (?, ?)", [date, idUser]);
     }
-
-
 };

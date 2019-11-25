@@ -6,6 +6,8 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
+const eventRoutes = require('./routes/eventRoutes');
+
 const app = express();
 
 //Middlewares
